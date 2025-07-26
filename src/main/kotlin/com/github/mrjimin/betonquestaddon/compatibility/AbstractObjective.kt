@@ -12,13 +12,13 @@ import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 
-abstract class AbstractBlockObjective<T>(
+abstract class AbstractObjective<T>(
     instruction: Instruction,
     targetAmount: Variable<Number>,
-    message: String,
+    langMessageKey: LangMessageKey,
     private val log: BetonQuestLogger,
     protected val itemID: Variable<T>
-) : CountingObjective(instruction, targetAmount, message), Listener {
+) : CountingObjective(instruction, targetAmount, langMessageKey.key), Listener {
 
     protected abstract fun matches(expected: T, inputId: String?): Boolean
 
@@ -42,4 +42,5 @@ abstract class AbstractBlockObjective<T>(
     override fun stop() {
         HandlerList.unregisterAll(this)
     }
+
 }

@@ -20,6 +20,7 @@ class IaSetBlockAt(
         if (!customStack.isBlock) {
             throw QuestException("ItemsAdder Item is not a block: $itemID")
         }
+
         CustomBlock.place(customStack.namespacedID, loc)
     }
 }

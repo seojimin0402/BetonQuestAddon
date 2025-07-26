@@ -10,19 +10,17 @@ import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.Ia
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.IaBlockPlaceObjectiveFactory
 
 object ItemsAdderIntegrator : BQAddonIntegrator() {
-
     override fun hook() {
-
-        condition.registerCombined("iaBlockAt", IaBlockConditionFactory(data))
+        condition.registerCombined("iaBlock", IaBlockConditionFactory(data))
         event.apply {
             register("iaBlockAt", IaSetBlockAtEventFactory(data))
             register("iaPlayAnimation", IaPlayAnimationEventFactory(loggerFactory, data))
         }
         objective.apply {
-            register("iaBlockBreak", IaBlockBreakObjectiveFactory(loggerFactory))
             register("iaBlockPlace", IaBlockPlaceObjectiveFactory(loggerFactory))
+            register("iaBlockBreak", IaBlockBreakObjectiveFactory(loggerFactory))
         }
-        registerItem("ia", IaItemFactory(), IaItemSerializer())
+        registerItem("ia", IaItemFactory, IaItemSerializer)
     }
 
 }

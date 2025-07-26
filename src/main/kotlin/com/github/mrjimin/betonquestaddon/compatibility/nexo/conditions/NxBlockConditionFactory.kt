@@ -31,7 +31,7 @@ class NxBlockConditionFactory(
     }
 
     private fun parseInstruction(instruction: Instruction): NxBlock {
-        val itemID: Variable<String> = instruction.get(NxParser.Companion.PARSER)
+        val itemID: Variable<String> = instruction.get(NxParser)
         val location: Variable<Location> = instruction.get(Argument.LOCATION)
         return NxBlock(itemID, location)
     }

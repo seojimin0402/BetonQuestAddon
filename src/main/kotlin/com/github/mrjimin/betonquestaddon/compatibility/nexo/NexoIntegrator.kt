@@ -9,15 +9,13 @@ import com.github.mrjimin.betonquestaddon.compatibility.nexo.objectives.NxBlockB
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.objectives.NxBlockPlaceObjectiveFactory
 
 object NexoIntegrator : BQAddonIntegrator() {
-
     override fun hook() {
-
-        condition.registerCombined("nxBlockAt", NxBlockConditionFactory(data))
+        condition.registerCombined("nxBlock", NxBlockConditionFactory(data))
         event.register("nxBlockAt", NxSetBlockAtEventFactory(data))
         objective.apply {
-            register("nxBlockBreak", NxBlockBreakObjectiveFactory(loggerFactory))
             register("nxBlockPlace", NxBlockPlaceObjectiveFactory(loggerFactory))
+            register("nxBlockBreak", NxBlockBreakObjectiveFactory(loggerFactory))
         }
-        registerItem("nexo", NxItemFactory(), NxItemSerializer())
+        registerItem("nexo", NxItemFactory, NxItemSerializer)
     }
 }

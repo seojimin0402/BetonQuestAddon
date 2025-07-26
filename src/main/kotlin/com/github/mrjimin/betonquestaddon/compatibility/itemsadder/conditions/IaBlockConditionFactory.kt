@@ -29,7 +29,7 @@ class IaBlockConditionFactory(
     }
 
     private fun parseInstruction(instruction: Instruction): IaBlock {
-        val itemID = instruction.get(IaParser.Companion.PARSER)
+        val itemID = instruction.get(IaParser)
         val location = instruction.get(Argument.LOCATION)
         return IaBlock(itemID, location)
     }

@@ -5,9 +5,8 @@ import org.betonquest.betonquest.instruction.Instruction
 import org.betonquest.betonquest.item.QuestItemWrapper
 import org.betonquest.betonquest.kernel.registry.TypeFactory
 
-class NxItemFactory : TypeFactory<QuestItemWrapper> {
-
+object NxItemFactory : TypeFactory<QuestItemWrapper> {
     override fun parseInstruction(instruction: Instruction): QuestItemWrapper {
-        return NxItemWrapper(instruction.get(NxParser.Companion.PARSER))
+        return NxItemWrapper(instruction.get(NxParser))
     }
 }

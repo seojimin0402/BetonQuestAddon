@@ -1,6 +1,7 @@
 package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives
 
-import com.github.mrjimin.betonquestaddon.compatibility.AbstractBlockObjective
+import com.github.mrjimin.betonquestaddon.compatibility.AbstractObjective
+import com.github.mrjimin.betonquestaddon.compatibility.LangMessageKey
 import dev.lone.itemsadder.api.CustomStack
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
 import org.betonquest.betonquest.instruction.Instruction
@@ -9,11 +10,10 @@ import org.betonquest.betonquest.instruction.variable.Variable
 open class IaBlockObjective(
     instruction: Instruction,
     targetAmount: Variable<Number>,
-    message: String,
+    langMessageKey: LangMessageKey,
     log: BetonQuestLogger,
     itemID: Variable<CustomStack>
-) : AbstractBlockObjective<CustomStack>(instruction, targetAmount, message, log, itemID) {
-
+) : AbstractObjective<CustomStack>(instruction, targetAmount, langMessageKey, log, itemID) {
     override fun matches(expected: CustomStack, inputId: String?): Boolean {
         return expected.namespacedID == inputId
     }

@@ -6,7 +6,7 @@ author: MrJimin
 depend:
   - BetonQuest
 website: https://www.spigotmc.org/resources/betonquestaddon.120813/
-description: Use ItemsAdder and Nexo directly within BetonQuest!
+description: Extends BetonQuest with additional powerful features.
 permissions:
   betonquestaddon.command:
     default: op

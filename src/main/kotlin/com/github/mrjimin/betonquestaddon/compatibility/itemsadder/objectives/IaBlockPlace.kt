@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives
 
+import com.github.mrjimin.betonquestaddon.compatibility.LangMessageKey
 import dev.lone.itemsadder.api.CustomStack
 import dev.lone.itemsadder.api.Events.CustomBlockPlaceEvent
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
@@ -13,7 +14,7 @@ class IaBlockPlace(
     targetAmount: Variable<Number>,
     log: BetonQuestLogger,
     itemID: Variable<CustomStack>
-) : IaBlockObjective(instruction, targetAmount, "blocks_to_place", log, itemID) {
+) : IaBlockObjective(instruction, targetAmount, LangMessageKey.BLOCK_PLACE, log, itemID) {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     fun CustomBlockPlaceEvent.onBlockPlace() {

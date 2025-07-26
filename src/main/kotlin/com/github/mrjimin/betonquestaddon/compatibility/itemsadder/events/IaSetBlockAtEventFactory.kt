@@ -15,7 +15,7 @@ class IaSetBlockAtEventFactory(
 ) : PlayerEventFactory {
 
     override fun parsePlayer(instruction: Instruction): PlayerEvent {
-        val itemID: Variable<CustomStack> = instruction.get(IaParser.Companion.PARSER)
+        val itemID: Variable<CustomStack> = instruction.get(IaParser)
         val location = instruction.get(Argument.LOCATION)
         return PrimaryServerThreadEvent(IaSetBlockAt(itemID, location), data)
     }

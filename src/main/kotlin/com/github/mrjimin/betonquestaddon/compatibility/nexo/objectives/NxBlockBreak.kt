@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.nexo.objectives
 
+import com.github.mrjimin.betonquestaddon.compatibility.LangMessageKey
 import com.nexomc.nexo.api.events.custom_block.NexoBlockBreakEvent
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
 import org.betonquest.betonquest.instruction.Instruction
@@ -13,7 +14,7 @@ class NxBlockBreak(
     targetAmount: Variable<Number>,
     log: BetonQuestLogger,
     itemID: Variable<String>
-) : NxBlockObjective(instruction, targetAmount, "blocks_to_break", log, itemID), Listener {
+) : NxBlockObjective(instruction, targetAmount, LangMessageKey.BLOCK_BREAK, log, itemID), Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     fun NexoBlockBreakEvent.onNexoBlockBreak() {

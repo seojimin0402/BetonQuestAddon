@@ -1,6 +1,8 @@
 package com.github.mrjimin.betonquestaddon.compatibility
 
 import com.github.mrjimin.betonquestaddon.compatibility.coinsengine.CoinsEngineIntegrator
+import com.github.mrjimin.betonquestaddon.compatibility.craftengine.CraftEngineIntegrator
+import com.github.mrjimin.betonquestaddon.compatibility.headdatabase.HDBIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.ItemsAdderIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.NexoIntegrator
 import com.github.mrjimin.betonquestaddon.util.checkPlugin
@@ -35,7 +37,6 @@ class BQAddonIntegratorHandler(
                 loggerFactory.debug("Plugin $pluginName not found, skipping integration.")
                 return@forEach
             }
-
             try {
                 supplier().hook()
                 loggerFactory.info("Successfully hooked into $pluginName.")
@@ -49,5 +50,7 @@ class BQAddonIntegratorHandler(
         register("CoinsEngine") { CoinsEngineIntegrator }
         register("Nexo") { NexoIntegrator }
         register("ItemsAdder") { ItemsAdderIntegrator }
+        register("CraftEngine") { CraftEngineIntegrator }
+        register("HeadDatabase") { HDBIntegrator }
     }
 }

@@ -12,7 +12,7 @@ class NxBlockBreakObjectiveFactory(
 ) : ObjectiveFactory {
 
     override fun parseInstruction(instruction: Instruction): Objective {
-        val itemID = instruction.get(NxParser.PARSER)
+        val itemID = instruction.get(NxParser)
         val targetAmount = instruction.getValue("amount", Argument.NUMBER_NOT_LESS_THAN_ONE, 1)!!
         val log = loggerFactory.create(NxBlockObjective::class.java)
         return NxBlockBreak(instruction, targetAmount, log, itemID)

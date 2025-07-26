@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.coinsengine.events
 
+import com.github.mrjimin.betonquestaddon.compatibility.LangMessageKey
 import org.betonquest.betonquest.api.logger.BetonQuestLoggerFactory
 import org.betonquest.betonquest.api.quest.QuestException
 import org.betonquest.betonquest.api.quest.event.PlayerEvent
@@ -45,9 +46,9 @@ class CoinsEventFactory(
             val pack = instruction.getPackage()
             val fullID = instruction.id.fullID
             Triple(
-                IngameNotificationSender(log, pluginMessage, pack, fullID, NotificationLevel.INFO, "coins_given"),
-                IngameNotificationSender(log, pluginMessage, pack, fullID, NotificationLevel.INFO, "coins_taken"),
-                IngameNotificationSender(log, pluginMessage, pack, fullID, NotificationLevel.INFO, "coins_reset")
+                IngameNotificationSender(log, pluginMessage, pack, fullID, NotificationLevel.INFO, LangMessageKey.COINS_GIVEN.key),
+                IngameNotificationSender(log, pluginMessage, pack, fullID, NotificationLevel.INFO, LangMessageKey.COINS_TAKEN.key),
+                IngameNotificationSender(log, pluginMessage, pack, fullID, NotificationLevel.INFO, LangMessageKey.COINS_RESET.key)
             )
         } else Triple(null, null, null)
 

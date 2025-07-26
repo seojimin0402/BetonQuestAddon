@@ -10,20 +10,6 @@ class IaItem(
     private val stack: CustomStack
 ) : QuestItem {
 
-    override fun generate(stackSize: Int, profile: Profile?): ItemStack {
-        val itemStack = stack.itemStack.clone()
-        itemStack.amount = stackSize
-        return itemStack
-    }
-
-    override fun matches(item: ItemStack?): Boolean {
-        val customStack = CustomStack.byItemStack(item)
-        if (customStack == null) {
-            return false
-        }
-        return customStack.namespacedID == stack.namespacedID
-    }
-
     override fun getName(): String? {
         return stack.displayName
     }
@@ -31,5 +17,16 @@ class IaItem(
     override fun getLore(): List<String?>? {
         val itemStack = stack.itemStack
         return itemStack.lore()?.map { it.toLegacy() }
+    }
+
+    override fun generate(stackSize: Int, profile: Profile?): ItemStack {
+        val itemStack = stack.itemStack.clone()
+        itemStack.amount = stackSize
+        return itemStack
+    }
+
+    override fun matches(item: ItemStack?): Boolean {
+        val customStack = CustomStack.byItemStack(item) ?: return false
+        return customStack.namespacedID == stack.namespacedID
     }
 }

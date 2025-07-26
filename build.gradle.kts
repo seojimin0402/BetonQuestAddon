@@ -1,6 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
+    java
     kotlin("jvm") version "2.2.0"
     id("com.gradleup.shadow") version "9.0.0-beta10"
 }
@@ -17,9 +18,9 @@ repositories {
     mavenCentral()
     maven("https://repo.nexomc.com/releases")
     maven("https://jitpack.io")
-    // maven("https://nexus.betonquest.org/repository/betonquest/")
     maven("https://repo.codemc.org/repository/maven-public/")
     maven("https://repo.nightexpressdev.com/releases")
+    maven("https://repo.momirealms.net/releases/")
 }
 
 dependencies {
@@ -27,6 +28,10 @@ dependencies {
     compileOnly("com.nexomc:nexo:1.8.0")
     compileOnly("com.github.LoneDev6","api-itemsadder","2.1.25")
     compileOnly("su.nightexpress.coinsengine","CoinsEngine","2.5.0")
+    compileOnly("net.momirealms:craft-engine-core:0.0.59")
+    compileOnly("net.momirealms:craft-engine-bukkit:0.0.59")
+    compileOnly("com.github.angeschossen:LandsAPI:7.15.20")
+    // compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
 
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.0")
 
@@ -52,7 +57,8 @@ tasks.withType<ShadowJar> {
     }
 
     archiveFileName.set("${rootProject.name}-${rootProject.version}.jar")
-    destinationDirectory=file("C:\\Users\\aa990\\OneDrive\\바탕 화면\\BQ\\plugins")
+    // destinationDirectory=file("C:\\Users\\aa990\\OneDrive\\바탕 화면\\BQ\\plugins")
+    destinationDirectory=file("C:\\Users\\aa990\\OneDrive\\바탕 화면\\BQ_CraftEngine\\plugins")
 }
 
 tasks.processResources {
@@ -60,6 +66,9 @@ tasks.processResources {
     inputs.properties(props)
     filteringCharset = "UTF-8"
     filesMatching("plugin.yml") {
+        expand(props)
+    }
+    filesMatching("paper-plugin.yml") {
         expand(props)
     }
 }

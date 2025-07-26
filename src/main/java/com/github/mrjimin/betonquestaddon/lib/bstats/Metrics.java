@@ -12,7 +12,7 @@
  *
  * Violations will result in a ban of your plugin and account from bStats.
  */
-package com.github.mrjimin.betonquestaddon;
+package com.github.mrjimin.betonquestaddon.lib.bstats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

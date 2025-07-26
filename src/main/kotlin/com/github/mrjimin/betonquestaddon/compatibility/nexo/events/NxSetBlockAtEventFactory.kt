@@ -15,7 +15,7 @@ class NxSetBlockAtEventFactory(
 ) : PlayerEventFactory {
 
     override fun parsePlayer(instruction: Instruction): PlayerEvent {
-        val itemID: Variable<String> = instruction.get(NxParser.Companion.PARSER)
+        val itemID: Variable<String> = instruction.get(NxParser)
         val location: Variable<Location> = instruction.get(Argument.LOCATION)
         return PrimaryServerThreadEvent(NxSetBlockAt(itemID, location), data)
     }
