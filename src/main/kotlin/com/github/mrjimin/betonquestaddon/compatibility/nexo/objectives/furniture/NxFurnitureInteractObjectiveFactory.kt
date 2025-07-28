@@ -2,7 +2,7 @@ package com.github.mrjimin.betonquestaddon.compatibility.nexo.objectives.furnitu
 
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.objectives.CeObjective
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.NxParser
-import com.github.mrjimin.betonquestaddon.util.getNumberNotLessThanOne
+import com.github.mrjimin.betonquestaddon.util.getNumberNotLessThanZero
 import org.betonquest.betonquest.api.Objective
 import org.betonquest.betonquest.api.logger.BetonQuestLoggerFactory
 import org.betonquest.betonquest.api.quest.objective.ObjectiveFactory
@@ -14,7 +14,7 @@ class NxFurnitureInteractObjectiveFactory(
 
     override fun parseInstruction(instruction: Instruction): Objective {
         val itemID = instruction.get(NxParser)
-        val targetAmount = instruction.getNumberNotLessThanOne("amount", 1)
+        val targetAmount = instruction.getNumberNotLessThanZero("amount", 1)
         val isCancel = instruction.hasArgument("cancel")
         val log = loggerFactory.create(CeObjective::class.java)
         return NxFurnitureInteract(instruction, targetAmount, log, itemID, isCancel)

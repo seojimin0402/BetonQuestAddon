@@ -12,7 +12,7 @@ class AEBookOpenObjective(
     instruction: Instruction,
     targetAmount: Variable<Number>,
     log: BetonQuestLogger,
-    val groups: Variable<List<String>>
+    private val groups: Variable<List<String>>
 ) : AbstractSimpleObjective(instruction, targetAmount, LangMessageKey.AE_BOOK_OPEN, log) {
 
     @EventHandler

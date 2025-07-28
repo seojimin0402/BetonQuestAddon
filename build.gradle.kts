@@ -22,6 +22,7 @@ repositories {
     maven("https://repo.nightexpressdev.com/releases")
     maven("https://repo.momirealms.net/releases/")
     maven("https://repo.momirealms.net/releases/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
@@ -34,6 +35,7 @@ dependencies {
     compileOnly("com.github.angeschossen:LandsAPI:7.15.20")
     // compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
     compileOnly("net.momirealms:custom-crops:3.6.40")
+    compileOnly("me.clip:placeholderapi:2.11.6")
 
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.0")
 

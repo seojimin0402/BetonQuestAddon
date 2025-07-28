@@ -22,7 +22,7 @@ class CoinsEvent(
     enum class Operation { ADD, REMOVE, MULTIPLY, SET }
 
     override fun execute(profile: Profile) {
-        val uuid = profile.player.uniqueId
+        val uuid = profile.playerUUID
         val currency = getCurrencyOrNull(currencyId)
         val current = CoinsEngineHook.getBalance(uuid, currencyId)
         val value = amount.getValue(profile).toDouble()

@@ -4,7 +4,7 @@ author: MrJimin
 website: https://www.spigotmc.org/resources/betonquestaddon.120813/
 description: Extends BetonQuest with additional powerful features.
 
-api-version: 1.21
+api-version: "1.21"
 
 main: com.github.mrjimin.betonquestaddon.BetonQuestAddonPlugin
 loader: com.github.mrjimin.betonquestaddon.BetonQuestAddonLoader
@@ -32,6 +32,9 @@ dependencies:
       load: BEFORE
       required: false
     AdvancedEnchantments:
+      load: BEFORE
+      required: false
+    PlaceholderAPI:
       load: BEFORE
       required: false
 
