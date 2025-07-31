@@ -21,6 +21,20 @@ class BQAddonIntegratorHandler(
     val questRegistries: QuestTypeRegistries
 ) {
 
+    companion object {
+        private val hookedPlugins = mutableListOf<String>()
+
+        fun addHookedPlugin(name: String) {
+            if (name !in hookedPlugins) hookedPlugins.add(name)
+        }
+
+        fun getHookedPlugins(): List<String> = hookedPlugins.toList()
+
+        fun clearHookedPlugins() {
+            hookedPlugins.clear()
+        }
+    }
+
     private val integrators = mutableMapOf<String, () -> BQAddonIntegrator>()
 
     init {
@@ -40,6 +54,7 @@ class BQAddonIntegratorHandler(
             }
             try {
                 supplier().hook()
+                addHookedPlugin(pluginName)
                 loggerFactory.info("Successfully hooked into $pluginName.")
             } catch (ex: Exception) {
                 loggerFactory.warn("Failed to hook into $pluginName: ${ex.message}", ex)

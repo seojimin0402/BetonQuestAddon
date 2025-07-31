@@ -15,6 +15,9 @@ dependencies:
     BetonQuest:
       load: BEFORE
       required: true
+    PlaceholderAPI:
+      load: BEFORE
+      required: true
 
     ItemsAdder:
       load: BEFORE
@@ -32,9 +35,6 @@ dependencies:
       load: BEFORE
       required: false
     AdvancedEnchantments:
-      load: BEFORE
-      required: false
-    PlaceholderAPI:
       load: BEFORE
       required: false
 
