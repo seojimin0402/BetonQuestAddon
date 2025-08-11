@@ -5,7 +5,9 @@ import com.github.mrjimin.betonquestaddon.compatibility.coinsengine.CoinsEngineI
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.CraftEngineIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.headdatabase.HDBIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.ItemsAdderIntegrator
+import com.github.mrjimin.betonquestaddon.compatibility.lands.LandsIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.NexoIntegrator
+import com.github.mrjimin.betonquestaddon.compatibility.placeholderapi.PAPIIntegrator
 import com.github.mrjimin.betonquestaddon.util.checkPlugin
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
 import org.betonquest.betonquest.config.PluginMessage
@@ -69,5 +71,7 @@ class BQAddonIntegratorHandler(
         register("CraftEngine") { CraftEngineIntegrator }
         register("HeadDatabase") { HDBIntegrator }
         register("AdvancedEnchantments") { AEIntegrator }
+        register("PlaceholderAPI") { PAPIIntegrator }
+        register("Lands") { LandsIntegrator }
     }
 }

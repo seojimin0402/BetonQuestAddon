@@ -1,0 +1,27 @@
+package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.block
+
+import com.github.mrjimin.betonquestaddon.compatibility.LangMessageKey
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.IaObjective
+import dev.lone.itemsadder.api.CustomStack
+import dev.lone.itemsadder.api.Events.CustomBlockInteractEvent
+import org.betonquest.betonquest.api.logger.BetonQuestLogger
+import org.betonquest.betonquest.instruction.Instruction
+import org.betonquest.betonquest.instruction.variable.Variable
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+
+class IaBlockInteract(
+    instruction: Instruction,
+    targetAmount: Variable<Number>,
+    log: BetonQuestLogger,
+    itemID: Variable<CustomStack>,
+    val isCancel: Boolean
+) : IaObjective(instruction, targetAmount, LangMessageKey.BLOCK_INTERACT, log, itemID), Listener {
+
+    @EventHandler
+    fun CustomBlockInteractEvent.onCustomBlockInteract() {
+        isCancelled = isCancel
+        handle(namespacedID, player)
+    }
+
+}

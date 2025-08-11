@@ -15,5 +15,8 @@ enum class LangMessageKey(val key: String) {
 
     AE_BOOK_OPEN("bqa_ae_book_open"),
     AE_ALCHEMIST_TRADE("bqa_ae_alchemist_trade"),
-    AE_TINKERER_TRADE("bqa_ae_tinkerer_trade")
+    AE_TINKERER_TRADE("bqa_ae_tinkerer_trade"),
+
+    LANDS_CREATE("bqa_lands_create"),
+    LANDS_DELETE("bqa_lands_delete"),
 }

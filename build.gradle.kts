@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.mrjimin"
-version = "1.1.4"
+version = "1.1.5"
 
 repositories {
     mavenCentral()
@@ -20,7 +20,6 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.codemc.org/repository/maven-public/")
     maven("https://repo.nightexpressdev.com/releases")
-    maven("https://repo.momirealms.net/releases/")
     maven("https://repo.momirealms.net/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
@@ -36,6 +35,7 @@ dependencies {
     // compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
     compileOnly("net.momirealms:custom-crops:3.6.40")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("com.github.Angeschossen:LandsAPI:7.15.20")
 
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.0")
 

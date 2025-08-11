@@ -37,6 +37,9 @@ dependencies:
     AdvancedEnchantments:
       load: BEFORE
       required: false
+    Lands:
+      load: BEFORE
+      required: false
 
 permissions:
   betonquestaddon.command:

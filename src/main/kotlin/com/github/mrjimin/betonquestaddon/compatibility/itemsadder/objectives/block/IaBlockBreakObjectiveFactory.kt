@@ -1,6 +1,7 @@
-package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives
+package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.block
 
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.IaParser
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.IaObjective
 import com.github.mrjimin.betonquestaddon.util.getNumberNotLessThanZero
 import org.betonquest.betonquest.api.Objective
 import org.betonquest.betonquest.api.logger.BetonQuestLoggerFactory
@@ -14,7 +15,7 @@ class IaBlockBreakObjectiveFactory(
     override fun parseInstruction(instruction: Instruction): Objective? {
         val itemID = instruction.get(IaParser)
         val targetAmount = instruction.getNumberNotLessThanZero("amount", 1)
-        val log = loggerFactory.create(IaBlockObjective::class.java)
+        val log = loggerFactory.create(IaObjective::class.java)
         return IaBlockBreak(instruction, targetAmount, log, itemID)
     }
 }

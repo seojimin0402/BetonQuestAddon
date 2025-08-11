@@ -2,6 +2,7 @@ package com.github.mrjimin.betonquestaddon
 
 import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
 import com.github.mrjimin.betonquestaddon.command.CommandsManger
+import com.github.mrjimin.betonquestaddon.config.ConfigsManager
 import com.github.mrjimin.betonquestaddon.lib.bstats.Metrics
 import com.github.mrjimin.betonquestaddon.spigot.UpdateChecker
 import com.github.mrjimin.betonquestaddon.test.TestPluginInit
@@ -27,12 +28,12 @@ class BetonQuestAddonPlugin : JavaPlugin() {
         Metrics(this, 26421)
         BetonQuestAddon.initialize()
         UpdateChecker.checkForUpdates(this, 120813)
+        ConfigsManager(this).reload()
         CommandsManger(this).loadsCommands()
-        saveDefaultConfig()
 
         logger.info("BetonQuestAddon v${pluginMeta.version} successfully enabled.")
 
-        // TestPluginInit(this)
+        TestPluginInit(this)
     }
 
     override fun onDisable() = CommandAPI.onDisable()

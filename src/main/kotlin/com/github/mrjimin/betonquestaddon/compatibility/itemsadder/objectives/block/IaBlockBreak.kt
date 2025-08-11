@@ -1,6 +1,7 @@
-package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives
+package com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.block
 
 import com.github.mrjimin.betonquestaddon.compatibility.LangMessageKey
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.IaObjective
 import dev.lone.itemsadder.api.CustomStack
 import dev.lone.itemsadder.api.Events.CustomBlockBreakEvent
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
@@ -13,7 +14,7 @@ class IaBlockBreak(
     targetAmount: Variable<Number>,
     log: BetonQuestLogger,
     itemID: Variable<CustomStack>
-) : IaBlockObjective(instruction, targetAmount, LangMessageKey.BLOCK_BREAK, log, itemID) {
+) : IaObjective(instruction, targetAmount, LangMessageKey.BLOCK_BREAK, log, itemID) {
 
     @EventHandler
     fun CustomBlockBreakEvent.onBlockBreak() {

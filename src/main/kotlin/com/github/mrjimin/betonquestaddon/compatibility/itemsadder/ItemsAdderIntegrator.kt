@@ -6,8 +6,9 @@ import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.events.animat
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.events.block.IaSetBlockAtEventFactory
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.items.IaItemFactory
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.items.IaItemSerializer
-import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.IaBlockBreakObjectiveFactory
-import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.IaBlockPlaceObjectiveFactory
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.block.IaBlockBreakObjectiveFactory
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.block.IaBlockInteractFactory
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.block.IaBlockPlaceObjectiveFactory
 
 object ItemsAdderIntegrator : BQAddonIntegrator() {
     override fun hook() {
@@ -19,6 +20,7 @@ object ItemsAdderIntegrator : BQAddonIntegrator() {
         objective.apply {
             register("iaBlockPlace", IaBlockPlaceObjectiveFactory(loggerFactory))
             register("iaBlockBreak", IaBlockBreakObjectiveFactory(loggerFactory))
+            register("iaBlockInteract", IaBlockInteractFactory(loggerFactory))
         }
         registerItem("ia", IaItemFactory, IaItemSerializer)
     }

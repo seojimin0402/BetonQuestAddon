@@ -13,7 +13,10 @@ class CommandsManger(private val plugin: BetonQuestAddonPlugin) {
         CommandAPICommand("betonquestaddon")
             .withAliases("bqa", "bqaddon")
             .withPermission("betonquestaddon.command")
-            .withSubcommand(ReloadCommand(plugin).build())
+            .withSubcommands(
+                ReloadCommand(plugin).build(),
+                GiveCommand().build()
+            )
             .executes(CommandExecutor { sender, _ ->
                 val hookedPlugins = BQAddonIntegratorHandler.getHookedPlugins().sorted().joinToString(", ")
                 val docs = "https://jiminstudio.github.io/betonquestaddon/"

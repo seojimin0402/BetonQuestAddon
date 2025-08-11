@@ -1,6 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.advancedenchantments.conditions
 
-import com.github.mrjimin.betonquestaddon.hook.PAPIHook.toPAPI
+import com.github.mrjimin.betonquestaddon.hook.PAPIHook.resolvePapiRaw
 import com.github.mrjimin.betonquestaddon.util.compareWith
 import com.github.mrjimin.betonquestaddon.util.toOnlinePlayer
 import org.betonquest.betonquest.api.profile.Profile
@@ -14,18 +14,18 @@ class AEHasCECondition(
 ) : PlayerCondition {
 
     override fun check(profile: Profile): Boolean {
-        val groupV = group.getValue(profile).lowercase()
+        val groupValue = group.getValue(profile).lowercase()
         val op = operator.getValue(profile)
         val requiredAmount = amount.getValue(profile).toInt()
         val player = profile.player.toOnlinePlayer()
 
-        val placeholder = if (groupV == "*") {
+        val placeholder = if (groupValue == "*") {
             "%advancedenchantments_item_enchants_total%"
         } else {
-            "%advancedenchantments_item_enchants_total_$groupV%"
+            "%advancedenchantments_item_enchants_total_$groupValue%"
         }
 
-        val papiValue = placeholder.toPAPI(player).toIntOrNull() ?: return false
+        val papiValue = placeholder.resolvePapiRaw(player).toIntOrNull() ?: return false
 
         return papiValue.compareWith(op, requiredAmount)
     }
