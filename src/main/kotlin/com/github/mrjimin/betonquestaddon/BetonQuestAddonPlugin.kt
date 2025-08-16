@@ -25,15 +25,18 @@ class BetonQuestAddonPlugin : JavaPlugin() {
 
     override fun onEnable() {
         CommandAPI.onEnable()
+
         Metrics(this, 26421)
+
         BetonQuestAddon.initialize()
         UpdateChecker.checkForUpdates(this, 120813)
+
         ConfigsManager(this).reload()
         CommandsManger(this).loadsCommands()
 
         logger.info("BetonQuestAddon v${pluginMeta.version} successfully enabled.")
 
-        TestPluginInit(this)
+        // TestPluginInit(this)
     }
 
     override fun onDisable() = CommandAPI.onDisable()

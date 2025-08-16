@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.craftengine
 
+import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
 import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.conditions.CeBlockConditionFactory
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.events.block.CeSetBlockAtEventFactory
@@ -30,6 +31,6 @@ object CraftEngineIntegrator : BQAddonIntegrator() {
             register("ceFurnitureBreak", CeFurnitureBreakObjectiveFactory(loggerFactory))
             register("ceFurnitureInteract", CeFurnitureInteractObjectiveFactory(loggerFactory))
         }
-        registerItem("ce", CeItemFactory, CeItemSerializer)
+        BetonQuestAddon.registerItem("ce", CeItemFactory, CeItemSerializer)
     }
 }

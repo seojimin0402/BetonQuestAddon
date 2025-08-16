@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.itemsadder
 
+import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
 import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.conditions.IaBlockConditionFactory
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.events.animation.IaPlayAnimationEventFactory
@@ -22,7 +23,7 @@ object ItemsAdderIntegrator : BQAddonIntegrator() {
             register("iaBlockBreak", IaBlockBreakObjectiveFactory(loggerFactory))
             register("iaBlockInteract", IaBlockInteractFactory(loggerFactory))
         }
-        registerItem("ia", IaItemFactory, IaItemSerializer)
+        BetonQuestAddon.registerItem("ia", IaItemFactory, IaItemSerializer)
     }
 
 }

@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.mrjimin"
-version = "1.1.5"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
@@ -22,6 +22,8 @@ repositories {
     maven("https://repo.nightexpressdev.com/releases")
     maven("https://repo.momirealms.net/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.xenondevs.xyz/releases")
+    maven("https://nexus.frengor.com/repository/public/")
 }
 
 dependencies {
@@ -37,7 +39,9 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("com.github.Angeschossen:LandsAPI:7.15.20")
 
-    implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.0")
+    implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.2")
+    implementation("xyz.xenondevs.invui:invui:2.0.0-alpha.17")
+    implementation("xyz.xenondevs.invui:invui-kotlin:2.0.0-alpha.17")
 
     compileOnly(fileTree("lib") {
         include("*.jar")
@@ -61,7 +65,7 @@ tasks.withType<ShadowJar> {
     }
 
     archiveFileName.set("${rootProject.name}-${rootProject.version}.jar")
-    destinationDirectory=file("C:\\Users\\aa990\\OneDrive\\바탕 화면\\BQ\\plugins")
+    destinationDirectory=file("C:\\Users\\aa990\\OneDrive\\바탕 화면\\BetonQuestTest\\plugins")
     // destinationDirectory=file("C:\\Users\\aa990\\OneDrive\\바탕 화면\\BQ_CraftEngine\\plugins")
 }
 

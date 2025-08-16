@@ -1,15 +1,19 @@
 package com.github.mrjimin.betonquestaddon.betonquest
 
+import com.github.mrjimin.betonquestaddon.betonquest.items.BQAddonItemFactory
+import com.github.mrjimin.betonquestaddon.betonquest.items.BQAddonItemSerializer
 import com.github.mrjimin.betonquestaddon.betonquest.objectives.chat.ChatObjectiveFactory
 import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegratorHandler
 import org.betonquest.betonquest.BetonQuest
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
 import org.betonquest.betonquest.api.logger.BetonQuestLoggerFactory
 import org.betonquest.betonquest.api.profile.OnlineProfile
-import org.betonquest.betonquest.api.profile.Profile
 import org.betonquest.betonquest.config.PluginMessage
 import org.betonquest.betonquest.conversation.ConversationColors
+import org.betonquest.betonquest.item.QuestItemSerializer
+import org.betonquest.betonquest.item.QuestItemWrapper
 import org.betonquest.betonquest.kernel.processor.quest.VariableProcessor
+import org.betonquest.betonquest.kernel.registry.TypeFactory
 import org.betonquest.betonquest.kernel.registry.feature.FeatureRegistries
 import org.betonquest.betonquest.kernel.registry.quest.QuestTypeRegistries
 import org.betonquest.betonquest.quest.PrimaryServerThreadData
@@ -27,18 +31,20 @@ object BetonQuestAddon {
             questRegistries
         )
 
-        loadConditions()
-        loadEvents()
-        loadObjectives()
+        registerConditions()
+        registerEvents()
+        registerObjectives()
+
+        registerItem("bqa", BQAddonItemFactory, BQAddonItemSerializer)
     }
 
-    private fun loadConditions() {
+    private fun registerConditions() {
     }
 
-    private fun loadEvents() {
+    private fun registerEvents() {
     }
 
-    private fun loadObjectives() {
+    private fun registerObjectives() {
         questRegistries.objective.register("chat", ChatObjectiveFactory)
     }
 
@@ -71,4 +77,14 @@ object BetonQuestAddon {
     val data: PrimaryServerThreadData by lazy { PrimaryServerThreadData(server, server.scheduler, instance) }
 
     fun Player.toProfile(): OnlineProfile = instance.profileProvider.getProfile(this)
+
+    fun registerItem(
+        name: String,
+        factory: TypeFactory<QuestItemWrapper>,
+        serializer: QuestItemSerializer
+    ) {
+        val itemRegistry = featureRegistries.item()
+        itemRegistry.register(name, factory)
+        itemRegistry.registerSerializer(name, serializer)
+    }
 }

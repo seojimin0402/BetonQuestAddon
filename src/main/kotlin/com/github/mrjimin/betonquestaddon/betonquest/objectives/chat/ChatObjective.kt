@@ -45,7 +45,7 @@ class ChatObjective(
         if (variable != null) {
             qeHandler.handle {
                 val variableEntry = variable.getValue(onlineProfile)
-                val objective = BetonQuest.getInstance().questTypeAPI.getObjective(variableEntry.key)
+                val objective = BetonQuest.getInstance().questTypeApi.getObjective(variableEntry.key)
                 if (objective is VariableObjective) {
                     if (!objective.store(onlineProfile, variableEntry.value, message().toPlainText())) {
                         throw QuestException(

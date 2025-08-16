@@ -1,8 +1,8 @@
 package com.github.mrjimin.betonquestaddon.hook
 
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.CeParser
-import com.github.mrjimin.betonquestaddon.util.NotFoundPlugin
-import com.github.mrjimin.betonquestaddon.util.checkPlugin
+import com.github.mrjimin.betonquestaddon.util.server.NotFoundPlugin
+import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
 import com.github.mrjimin.betonquestaddon.util.getBoolean
 import net.momirealms.craftengine.bukkit.api.BukkitAdaptors
 import net.momirealms.craftengine.bukkit.api.CraftEngineBlocks

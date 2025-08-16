@@ -1,3 +1,4 @@
+/*
 package com.github.mrjimin.betonquestaddon.betonquest.conversation
 
 import org.betonquest.betonquest.api.profile.OnlineProfile
@@ -13,4 +14,4 @@ class TitleConvIOFactory(
     override fun parse(conversation: Conversation, onlineProfile: OnlineProfile): ConversationIO {
         return TitleConvIO(conversation, onlineProfile, colors)
     }
-}
+}*/

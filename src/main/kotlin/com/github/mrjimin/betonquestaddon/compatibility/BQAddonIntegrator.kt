@@ -23,15 +23,5 @@ abstract class BQAddonIntegrator {
     protected val objective: ObjectiveTypeRegistry = registries.objective
     protected val variable: VariableTypeRegistry = registries.variable
 
-    protected fun registerItem(
-        name: String,
-        factory: TypeFactory<QuestItemWrapper>,
-        serializer: QuestItemSerializer
-    ) {
-        val itemRegistry = featureRegistries.item()
-        itemRegistry.register(name, factory)
-        itemRegistry.registerSerializer(name, serializer)
-    }
-
     abstract fun hook()
 }

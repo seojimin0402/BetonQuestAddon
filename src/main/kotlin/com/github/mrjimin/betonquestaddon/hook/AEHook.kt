@@ -1,7 +1,7 @@
 package com.github.mrjimin.betonquestaddon.hook
 
-import com.github.mrjimin.betonquestaddon.util.NotFoundPlugin
-import com.github.mrjimin.betonquestaddon.util.checkPlugin
+import com.github.mrjimin.betonquestaddon.util.server.NotFoundPlugin
+import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
 import net.advancedplugins.ae.api.AEAPI
 import org.betonquest.betonquest.api.quest.QuestException
 import org.bukkit.inventory.ItemStack

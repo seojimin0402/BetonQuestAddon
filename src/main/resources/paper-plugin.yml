@@ -15,9 +15,6 @@ dependencies:
     BetonQuest:
       load: BEFORE
       required: true
-    PlaceholderAPI:
-      load: BEFORE
-      required: true
 
     ItemsAdder:
       load: BEFORE
@@ -40,10 +37,20 @@ dependencies:
     Lands:
       load: BEFORE
       required: false
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+    UltimateAdvancementAPI:
+      load: BEFORE
+      required: false
 
 permissions:
   betonquestaddon.command:
     default: op
   betonquestaddon.command.reload:
+    default: op
+  betonquestaddon.command.give:
+    default: op
+  betonquestaddon.command.inventory:
     default: op
 

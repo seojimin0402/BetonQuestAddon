@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.nexo
 
+ import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
  import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.conditions.NxBlockConditionFactory
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.events.block.NxSetBlockAtEventFactory
@@ -28,6 +29,6 @@ object NexoIntegrator : BQAddonIntegrator() {
             register("nxFurnitureBreak", NxFurnitureBreakObjectiveFactory(loggerFactory))
             register("nxFurnitureInteract", NxFurnitureInteractObjectiveFactory(loggerFactory))
         }
-        registerItem("nexo", NxItemFactory, NxItemSerializer)
+        BetonQuestAddon.registerItem("nexo", NxItemFactory, NxItemSerializer)
     }
 }

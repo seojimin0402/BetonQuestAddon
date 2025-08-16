@@ -23,7 +23,6 @@ class NxItem(
 
     override fun generate(int: Int, profile: Profile?): ItemStack? {
         val item = NexoItems.itemFromId(itemId) ?: return null
-        item.setAmount(int)
         return item.setAmount(int).build()
     }
 

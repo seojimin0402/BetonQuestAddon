@@ -14,7 +14,7 @@ class ReloadCommand(private val plugin: BetonQuestAddonPlugin) {
             .withPermission("betonquestaddon.command.reload")
             .executes(CommandExecutor { sender, _ ->
                 ConfigsManager(plugin).reload()
-                sender.sendMessage("<gray>BetonQuestAddon</gray> <green>Reloaded successfully!".toMiniMessage())
+                sender.sendMessage("<#888888>BetonQuestAddon</#888888> <green>Reloaded successfully!".toMiniMessage())
             })
     }
 }

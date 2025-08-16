@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.test.listener
 
+import com.github.mrjimin.betonquestaddon.api.BQAddonItems
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems.ITEM_ID
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems.idFromItem
 import com.github.mrjimin.betonquestaddon.hook.CraftEngineHook
@@ -38,10 +39,10 @@ class TestListener : Listener {
 //
 //        println("================")
 //        println(head == blockDrop)
-        println(idFromItem(player.inventory.itemInMainHand))
-        println(player.inventory.itemInMainHand.itemMeta.itemName())
         println(ITEM_ID)
 
+        val item = BQAddonItems.itemFromId("test")?.build() ?: return
+        player.inventory.addItem(item)
 
     }
 }

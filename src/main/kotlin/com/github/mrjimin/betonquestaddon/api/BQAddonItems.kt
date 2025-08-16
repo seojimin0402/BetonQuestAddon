@@ -1,8 +1,7 @@
 package com.github.mrjimin.betonquestaddon.api
 
-import com.github.mrjimin.betonquestaddon.BetonQuestAddonPlugin
 import com.github.mrjimin.betonquestaddon.config.ConfigsManager
-import com.github.mrjimin.betonquestaddon.items.ItemBuilder
+import com.github.mrjimin.betonquestaddon.item.ItemBuilder
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -10,41 +9,39 @@ import java.io.File
 
 object BQAddonItems {
 
-    val ITEM_ID = NamespacedKey(BetonQuestAddonPlugin.instance, "id")
-
-    private val itemsMap = mutableMapOf<File, MutableMap<String, ItemBuilder>>()
-    private val idToItemBuilder = mutableMapOf<String, ItemBuilder>()
+    val ITEM_ID = NamespacedKey("betonquestaddon", "id")
+    val itemsMap = mutableMapOf<File, MutableMap<String, ItemBuilder>>()
+    val idToItemBuilder = mutableMapOf<String, ItemBuilder>()
 
     fun loadItems(configsManager: ConfigsManager) {
-        val parsed = configsManager.parseItemConfig()
+        val parsedItems = configsManager.parseItemConfig()
 
         itemsMap.clear()
         idToItemBuilder.clear()
 
-        itemsMap.putAll(parsed.mapValues { it.value.toMutableMap() })
+        itemsMap.putAll(parsedItems)
+        parsedItems.values.forEach { idToItemBuilder.putAll(it) }
+    }
 
-        for (itemBuilders in itemsMap.values) {
-            for ((id, builder) in itemBuilders) {
-                idToItemBuilder[id] = builder
-            }
+    fun idFromItem(item: ItemBuilder): String? = item.getPDC(ITEM_ID, PersistentDataType.STRING)
+
+    fun idFromItem(item: ItemStack?): String? = item?.itemMeta?.persistentDataContainer[ITEM_ID, PersistentDataType.STRING]
+
+    fun itemFromId(id: String?): ItemBuilder? = idToItemBuilder[id]
+
+    fun exists(id: String?): Boolean = itemFromId(id) != null
+
+    fun exists(item: ItemStack?): Boolean = idFromItem(item)?.let { exists(it) } ?: false
+
+    fun allIds(): List<String> = idToItemBuilder.keys.toList().sorted()
+
+    fun allItems(): List<ItemBuilder> = idToItemBuilder.values.toList()
+
+    fun firstItemsFromFile(): List<Pair<File, ItemBuilder>> =
+        itemsMap.mapNotNull { (file, map) ->
+            map.values.firstOrNull()?.let { file to it }
         }
 
-    }
-
-    fun itemFromId(id: String): ItemBuilder? = idToItemBuilder[id]
-
-    fun idFromItem(itemStack: ItemStack): String? =
-        itemStack.itemMeta?.persistentDataContainer?.get(ITEM_ID, PersistentDataType.STRING)
-
-    fun getItems(): Collection<ItemBuilder> = idToItemBuilder.values.toList()
-
-    fun getIds(): List<String> = idToItemBuilder.keys.toList().sorted()
-
-    fun exists(id: String): Boolean = itemFromId(id) != null
-
-    fun exists(itemStack: ItemStack?): Boolean {
-        if (itemStack == null) return false
-        val id = idFromItem(itemStack) ?: return false
-        return exists(id)
-    }
+    fun allItemsFromFile(file: File): List<ItemBuilder> =
+        itemsMap[file]?.values?.toList() ?: emptyList()
 }

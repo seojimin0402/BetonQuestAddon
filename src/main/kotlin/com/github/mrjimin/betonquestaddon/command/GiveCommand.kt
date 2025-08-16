@@ -19,17 +19,17 @@ class GiveCommand() {
             .withArguments(
                 EntitySelectorArgument.ManyPlayers("targets"),
                 TextArgument("item")
-                    .replaceSuggestions(ArgumentSuggestions.strings(BQAddonItems.getIds())),
-                IntegerArgument("amount")
+                    .replaceSuggestions(ArgumentSuggestions.strings { BQAddonItems.allIds().toTypedArray() }),
+                IntegerArgument("amount").setOptional(true)
                 )
             .executes(CommandExecutor { sender, args ->
                 val targets = args[0] as Collection<Player>
                 val itemID = args[1] as String
-                val amount = args[2] as Int
+                val amount = args[2] as? Int? ?: 1
 
                 val itemBuilder = BQAddonItems.itemFromId(itemID)
                 if (itemBuilder == null) {
-                    sender.sendMessage("<gray>BetonQuestAddon</gray> <red>Item '$itemID' not found.</red>".toMiniMessage())
+                    sender.sendMessage("<#888888>BetonQuestAddon</#888888> <red>Item '$itemID' not found.</red>".toMiniMessage())
                     return@CommandExecutor
                 }
 
@@ -45,9 +45,9 @@ class GiveCommand() {
                 }
 
                 if (targets.size == 1) {
-                    sender.sendMessage("<gray>BetonQuestAddon</gray> <green>Gave $amount of $itemID to ${targets.first().name}.</green>".toMiniMessage())
+                    sender.sendMessage("<#888888>BetonQuestAddon</#888888> <#00ff00>Gave $itemID<gray>x</gray>$amount to <#00ccff>${targets.first().name}</#00ccff></#00ff00>".toMiniMessage())
                 } else {
-                    sender.sendMessage("<gray>BetonQuestAddon</gray> <green>Gave $amount of $itemID to ${targets.size} players.</green>".toMiniMessage())
+                    sender.sendMessage("<#888888>BetonQuestAddon</#888888> <#00ff00>Gave $itemID<gray>x</gray>$amount to <#00ccff>${targets.size}</#00ccff> players</#00ff00>".toMiniMessage())
                 }
             })
     }
