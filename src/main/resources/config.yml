@@ -5,8 +5,8 @@ objectives:
     # Default value: "cancel"
     argumentName: "cancel"
 
-#compatibility:
-#  plasmovoice:
-#    source_line_volume: 1
-#    source_line_weight: 10
-#    icon: "plasmovoice:textures/icons/speaker_priority.png"
+compatibility:
+  plasmovoice:
+    source_line_volume: 1
+    source_line_weight: 10
+    icon: "plasmovoice:textures/icons/speaker_priority.png"

@@ -3,6 +3,7 @@ package com.github.mrjimin.betonquestaddon.command
 import com.github.mrjimin.betonquestaddon.BetonQuestAddonPlugin
 import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegratorHandler
 import com.github.mrjimin.betonquestaddon.util.server.MinecraftVersion
+import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
 import com.github.mrjimin.betonquestaddon.util.toMiniMessage
 import dev.jorel.commandapi.CommandAPICommand
 import dev.jorel.commandapi.executors.CommandExecutor
@@ -12,12 +13,13 @@ class CommandsManger(private val plugin: BetonQuestAddonPlugin) {
 
     fun loadsCommands() {
         CommandAPICommand("betonquestaddon")
-            .withAliases("bqa", "bqaddon")
+            .withAliases("pv-bqa", "bqaddon")
             .withPermission("betonquestaddon.command")
             .withSubcommands(
                 ReloadCommand(plugin).build(),
                 GiveCommand().build(),
-                if (MinecraftVersion.V1_21_8.isExact()) GUICommand().build() else null
+                if (MinecraftVersion.V1_21_8.isExact()) GUICommand().build() else null,
+                if ("PlasmoVoice".checkPlugin()) PVListCommand().build() else null
             )
             .executes(CommandExecutor { sender, _ ->
                 val hookedPlugins = BQAddonIntegratorHandler.getHookedPlugins().sorted().joinToString(", ")

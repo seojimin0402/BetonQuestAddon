@@ -1,123 +1,124 @@
-//package com.github.mrjimin.betonquestaddon.hook
-//
-//import com.github.mrjimin.betonquestaddon.BuildConstants
-//import com.github.mrjimin.betonquestaddon.config.Settings
-//import com.github.mrjimin.betonquestaddon.util.server.NotFoundPlugin
-//import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
-//import kotlinx.coroutines.*
-//import kotlinx.coroutines.future.await
-//import org.bukkit.Location
-//import org.bukkit.entity.Player
-//import su.plo.voice.api.addon.AddonLoaderScope
-//import su.plo.voice.api.addon.InjectPlasmoVoice
-//import su.plo.voice.api.addon.annotation.Addon
-//import su.plo.voice.api.server.PlasmoVoiceServer
-//import su.plo.voice.api.server.audio.line.ServerSourceLine
-//import su.plo.voice.api.server.audio.source.ServerProximitySource
-//import su.plo.voice.discs.PlasmoAudioPlayerManager
-//import su.plo.voice.discs.libraries.org.koin.core.Koin
-//import su.plo.voice.discs.utils.PluginKoinComponent
-//import su.plo.voice.discs.utils.PluginKoinComponentKt
-//import java.util.concurrent.ConcurrentHashMap
-//
-//@Addon(
-//    id = "pv-addon-betonquestaddon",
-//    scope = AddonLoaderScope.SERVER,
-//    version = BuildConstants.VERSION,
-//    authors = ["MrJimin"]
-//)
-//object PVHook : PluginKoinComponent {
-//
-//    init {
-//        if (!"PlasmoVoice".checkPlugin()) throw NotFoundPlugin("PlasmoVoice")
-//    }
-//
-//    @InjectPlasmoVoice
-//    lateinit var voiceServer: PlasmoVoiceServer
-//
-//    private val audioManager by lazy {
-//        PlasmoAudioPlayerManager().apply { registerSources() }
-//    }
-//
-//    val sourceLine: ServerSourceLine by lazy {
-//        voiceServer.sourceLineManager.createBuilder(
-//            this,
-//            "betonquestaddon",
-//            "pv.activation.betonquestaddon",
-//            Settings.PV_ICON.toString(),
-//            Settings.PV_LINE_WEIGHT.toInt()
-//        ).apply {
-//            setDefaultVolume(Settings.PV_LINE_VOLUME.toDouble())
-//        }.build()
-//    }
-//
-//    private val playerJobs: MutableMap<Player, Job> = ConcurrentHashMap()
-//    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-//
-//    fun onLoad() = PlasmoVoiceServer.getAddonsLoader().load(this)
-//    fun onDisable() {
-//        stopAll()
-//        PlasmoVoiceServer.getAddonsLoader().unload(this)
-//    }
-//
-//    /**
-//     * 플레이어에게 트랙 재생
-//     */
-//    fun play(player: Player, identifier: String, distance: Short = Settings.PV_LINE_DISTANCE.toShort()) {
-//        scope.launch {
-//            stop(player)?.join()
-//            playerJobs[player] = startJob(player, identifier, distance)
-//        }
-//    }
-//
-//    /**
-//     * 특정 플레이어 트랙 정지
-//     */
-//    fun stop(player: Player): Job? =
-//        playerJobs.remove(player)?.also { it.cancel() }
-//
-//    /**
-//     * 모든 플레이어 트랙 정지
-//     */
-//    fun stopAll() {
-//        playerJobs.keys.toList().forEach { stop(it) }
-//    }
-//
-//    /**
-//     * 실제 트랙 재생 Job
-//     */
-//    private fun startJob(player: Player, identifier: String, distance: Short): Job =
-//        scope.launch {
-//            val voicePlayer = player.asVoicePlayer(voiceServer) ?: return@launch
-//
-//            // Bukkit API는 메인 스레드에서 실행
-//            val track = try {
-//                audioManager.getTrack(identifier).await()
-//            } catch (e: Exception) {
-//                withContext(Dispatchers.Main) {
-//                    voicePlayer.instance.sendActionBar("Failed to load track: ${e.message}")
-//                }
-//                return@launch
-//            }
-//
-//            // PlayerSource 생성도 메인 스레드에서
-//            val source: ServerProximitySource<*> = withContext(Dispatchers.Main) {
-//                sourceLine.createPlayerSource(voicePlayer, !Settings.PV_LINE_MONO)
-//            }
-//
-//            // 트랙 재생은 비동기에서
-//            val job = audioManager.startTrackJob(track, source, distance)
-//            try {
-//                job.join()
-//            } finally {
-//                withContext(NonCancellable + Dispatchers.Main) {
-//                    job.cancelAndJoin()
-//                    source.remove()
-//                    playerJobs.remove(player)
-//                }
-//            }
-//        }
-//
-//
-//    override fun getKoin(): Koin = PluginKoinComponentKt.getKOIN_INSTANCE()
-//}
+package com.github.mrjimin.betonquestaddon.hook
+
+import com.github.mrjimin.betonquestaddon.BuildConstants
+import com.github.mrjimin.betonquestaddon.config.Settings
+import kotlinx.coroutines.*
+import kotlinx.coroutines.future.await
+import org.bukkit.Location
+import org.bukkit.entity.Player
+import su.plo.slib.api.server.position.ServerPos3d
+import su.plo.voice.api.addon.AddonLoaderScope
+import su.plo.voice.api.addon.InjectPlasmoVoice
+import su.plo.voice.api.addon.annotation.Addon
+import su.plo.voice.api.addon.annotation.Dependency
+import su.plo.voice.api.server.PlasmoVoiceServer
+import su.plo.voice.api.server.audio.line.ServerSourceLine
+import su.plo.voice.api.server.audio.source.ServerProximitySource
+import su.plo.voice.api.server.player.VoiceServerPlayer
+import su.plo.voice.discs.PlasmoAudioPlayerManager
+import su.plo.voice.discs.libraries.org.koin.core.Koin
+import su.plo.voice.discs.utils.PluginKoinComponent
+import su.plo.voice.discs.utils.PluginKoinComponentKt
+
+@Addon(
+    id = "pv-addon-betonquestaddon",
+    scope = AddonLoaderScope.SERVER,
+    version = BuildConstants.VERSION,
+    authors = ["MrJimin"],
+    dependencies = [Dependency(id = "pv-addon-lavaplayer-lib")]
+)
+object PVHook : PluginKoinComponent {
+
+    val addonName = "betonquestaddon"
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val trackMap = mutableMapOf<String, String>() // id -> url
+    private val playerTrackJobs = mutableMapOf<String, Job>() // "uuid-id" or "location-id" -> Job
+
+    @InjectPlasmoVoice
+    lateinit var voiceServer: PlasmoVoiceServer
+
+    private val audioManager by lazy { PlasmoAudioPlayerManager().apply { registerSources() } }
+
+    val sourceLine: ServerSourceLine by lazy {
+        voiceServer.sourceLineManager.createBuilder(
+            this,
+            addonName,
+            "pv.activation.$addonName",
+            Settings.PV_ICON.toString(),
+            Settings.PV_LINE_WEIGHT.toInt()
+        ).apply {
+            setDefaultVolume(Settings.PV_LINE_VOLUME.toDouble())
+        }.build()
+    }
+
+    fun onLoad() = PlasmoVoiceServer.getAddonsLoader().load(this)
+
+    fun onDisable() {
+        playerTrackJobs.values.forEach { it.cancel() }
+        playerTrackJobs.clear()
+        trackMap.clear()
+        PlasmoVoiceServer.getAddonsLoader().unload(this)
+    }
+
+    private fun getJobKey(player: Player?, id: String) =
+        if (player != null) "${player.uniqueId}-$id" else "location-$id"
+
+    fun playTrack(player: Player, id: String, url: String, distance: Short = 16, loop: Boolean = false) {
+        trackMap[id] = url
+        val voicePlayer = player.asVoicePlayer(voiceServer) ?: return
+        val jobKey = getJobKey(player, id)
+        playerTrackJobs[jobKey]?.cancel()
+        val job = scope.launch {
+            try {
+                do {
+                    val track = audioManager.getTrack(url).await()
+                    val source = sourceLine.createPlayerSource(voicePlayer, false) as ServerProximitySource<*>
+                    audioManager.startTrackJob(track, source, distance)
+                } while (loop)
+            } catch (e: Exception) {
+                player.sendMessage("§cFailed to play track: ${e.message}")
+            }
+        }
+        playerTrackJobs[jobKey] = job
+    }
+
+    fun playTrackAtLocation(location: Location, id: String, url: String, distance: Short = 16, loop: Boolean = false) {
+        trackMap[id] = url
+        scope.launch {
+            try {
+                val mcWorld = voiceServer.minecraftServer.getWorld(location.world.name) ?: return@launch
+                val pos = ServerPos3d(mcWorld, location.x, location.y, location.z)
+                do {
+                    val track = audioManager.getTrack(url).await()
+                    val source = sourceLine.createStaticSource(pos, false)
+                    audioManager.startTrackJob(track, source, distance)
+                } while (loop)
+            } catch (e: Exception) {
+                println("Failed to play track at location: ${e.message}")
+            }
+        }
+    }
+
+
+    fun stopTrack(player: Player?, id: String) {
+        val jobKey = getJobKey(player, id)
+        playerTrackJobs.remove(jobKey)?.cancel()
+        trackMap.remove(id)
+    }
+
+    fun stopTrackAll(id: String) {
+        playerTrackJobs.keys.filter { it.endsWith("-$id") || it.startsWith("location-$id") }
+            .forEach { playerTrackJobs.remove(it)?.cancel() }
+        trackMap.remove(id)
+    }
+
+    fun getTrackUrl(id: String): String? = trackMap[id]
+    fun getAllTracks(): Map<String, String> = trackMap.toMap()
+
+    fun Player.asVoicePlayer(voiceServer: PlasmoVoiceServer): VoiceServerPlayer =
+        voiceServer.playerManager.getPlayerByInstance(this)
+
+    override fun getKoin(): Koin = PluginKoinComponentKt.getKOIN_INSTANCE()
+
+}

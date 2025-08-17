@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.mrjimin"
-version = "1.2.1"
+version = "1.2.1-dev"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,8 @@ repositories {
     maven("https://repo.xenondevs.xyz/releases")
     // maven("https://nexus.frengor.com/repository/public/")
     maven("https://maven.enginehub.org/repo/")
-    maven("https://repo.plasmoverse.com/releases")
+    // maven("https://repo.plasmoverse.com/releases")
+    maven("https://repo.plo.su")
 }
 
 dependencies {
@@ -39,17 +40,18 @@ dependencies {
     // compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
     compileOnly("net.momirealms:custom-crops:3.6.40")
     compileOnly("me.clip:placeholderapi:2.11.6")
-    compileOnly("com.github.Angeschossen:LandsAPI:7.15.20")
     // compileOnly("com.frengor:ultimateadvancementapi:2.6.0")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.14")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.14")
     compileOnly("com.sk89q.worldedit:worldedit-core:7.3.14")
-    compileOnly("su.plo.voice.api:server:2.1.5")
+    // compileOnly("su.plo.voice.api:server:2.1.5")
+    compileOnly("su.plo:pv-addon-lavaplayer-lib:1.0.7")
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0") // stdlib 포함
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0") // PlasmoVoice 호환
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.2")
     implementation("xyz.xenondevs.invui:invui:2.0.0-alpha.17")
     implementation("xyz.xenondevs.invui:invui-kotlin:2.0.0-alpha.17")
-
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 
     compileOnly(fileTree("lib") {
@@ -62,16 +64,12 @@ tasks.build {
 }
 
 tasks.withType<ShadowJar> {
-    exclude("kotlin/**")
-    exclude("org/**")
+//    exclude("kotlin/**")
+//    exclude("org/**")
 
     from("LICENSE")
 
     relocate("dev.jorel.commandapi", "com.github.mrjimin.betonquestaddon.lib.commandapi")
-
-//    relocate("kotlin", "su.plo.voice.libs.kotlin")
-//    relocate("kotlinx.coroutines", "su.plo.voice.libs.kotlinx.coroutines")
-//    relocate("kotlinx.serialization", "su.plo.voice.libs.kotlinx.serialization")
 
     manifest {
         attributes["paperweight-mappings-namespace"] = "mojang"
@@ -86,12 +84,8 @@ tasks.processResources {
     val props = mapOf("version" to version)
     inputs.properties(props)
     filteringCharset = "UTF-8"
-    filesMatching("plugin.yml") {
-        expand(props)
-    }
-    filesMatching("paper-plugin.yml") {
-        expand(props)
-    }
+    filesMatching("plugin.yml") { expand(props) }
+    filesMatching("paper-plugin.yml") { expand(props) }
 }
 
 kotlin {

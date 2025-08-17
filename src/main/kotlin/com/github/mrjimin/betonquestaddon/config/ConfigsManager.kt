@@ -2,28 +2,32 @@ package com.github.mrjimin.betonquestaddon.config
 
 import com.github.mrjimin.betonquestaddon.BetonQuestAddonPlugin
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems
+import com.github.mrjimin.betonquestaddon.compatibility.plasmovoice.AddonConfig
+import com.github.mrjimin.betonquestaddon.hook.PVHook
 import com.github.mrjimin.betonquestaddon.item.ItemBuilder
 import com.github.mrjimin.betonquestaddon.item.ItemParser
+import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
 import org.bukkit.configuration.file.YamlConfiguration
+import su.plo.voice.api.server.PlasmoVoiceServer
 import java.io.File
+import java.io.InputStream
 
 class ConfigsManager(private val plugin: BetonQuestAddonPlugin) {
-    private val itemsFolder = File(plugin.dataFolder, "items")
+
+    private val itemsFolder = File(plugin.dataFolder, "items").apply { if (!exists()) mkdirs() }
 
     fun reload() {
         plugin.saveDefaultConfig()
         plugin.reloadConfig()
+        if ("PlasmoVoice".checkPlugin()) AddonConfig.loadConfig(PVHook.voiceServer)
         BQAddonItems.loadItems(this)
     }
 
     fun parseItemConfig(): Map<File, MutableMap<String, ItemBuilder>> {
-        if (!itemsFolder.exists()) itemsFolder.mkdirs()
-
         return itemsFolder.walkTopDown()
             .filter { it.isFile && it.extension.equals("yml", ignoreCase = true) }
             .associateWith { file ->
                 val config = YamlConfiguration.loadConfiguration(file)
-
                 config.getKeys(false).mapNotNull { itemId ->
                     config.getConfigurationSection(itemId)?.let { section ->
                         itemId to ItemParser(section).buildItem(itemId)
@@ -31,4 +35,5 @@ class ConfigsManager(private val plugin: BetonQuestAddonPlugin) {
                 }.toMap().toMutableMap()
             }
     }
+
 }

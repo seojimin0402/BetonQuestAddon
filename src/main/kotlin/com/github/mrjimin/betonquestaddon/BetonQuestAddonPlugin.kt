@@ -3,6 +3,7 @@ package com.github.mrjimin.betonquestaddon
 import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
 import com.github.mrjimin.betonquestaddon.command.CommandsManger
 import com.github.mrjimin.betonquestaddon.config.ConfigsManager
+import com.github.mrjimin.betonquestaddon.hook.PVHook
 import com.github.mrjimin.betonquestaddon.lib.bstats.Metrics
 import com.github.mrjimin.betonquestaddon.spigot.UpdateChecker
 import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
@@ -22,7 +23,7 @@ class BetonQuestAddonPlugin : JavaPlugin() {
 
     override fun onLoad() {
         CommandAPI.onLoad(CommandAPIBukkitConfig(this).verboseOutput(true))
-        // if ("PlasmoVoice".checkPlugin()) PVHook.onLoad()
+        if ("PlasmoVoice".checkPlugin()) PVHook.onLoad()
     }
 
     override fun onEnable() {
@@ -45,7 +46,7 @@ class BetonQuestAddonPlugin : JavaPlugin() {
 
     override fun onDisable() {
         CommandAPI.onDisable()
-        // if ("PlasmoVoice".checkPlugin()) PVHook.onDisable()
+        if ("PlasmoVoice".checkPlugin()) PVHook.onDisable()
     }
 
 }

@@ -2,12 +2,6 @@ package com.github.mrjimin.betonquestaddon.test.listener
 
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems.ITEM_ID
-import com.github.mrjimin.betonquestaddon.api.BQAddonItems.idFromItem
-import com.github.mrjimin.betonquestaddon.hook.CraftEngineHook
-import com.github.mrjimin.betonquestaddon.util.toMiniMessage
-import me.arcaniax.hdb.api.HeadDatabaseAPI
-import org.bukkit.Bukkit
-import org.bukkit.Location
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -41,7 +35,7 @@ class TestListener : Listener {
 //        println(head == blockDrop)
         println(ITEM_ID)
 
-        val item = BQAddonItems.itemFromId("test")?.build() ?: return
+        val item = BQAddonItems.itemFromId("languages")?.build() ?: return
         player.inventory.addItem(item)
 
     }
