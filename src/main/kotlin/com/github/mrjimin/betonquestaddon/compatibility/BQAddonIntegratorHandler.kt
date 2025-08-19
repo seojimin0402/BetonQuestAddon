@@ -8,7 +8,6 @@ import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.ItemsAdderInt
 import com.github.mrjimin.betonquestaddon.compatibility.lands.LandsIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.NexoIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.placeholderapi.PAPIIntegrator
-import com.github.mrjimin.betonquestaddon.compatibility.plasmovoice.PlasmoVoiceIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.worldguard.WorldGuardIntegrator
 import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
@@ -76,6 +75,5 @@ class BQAddonIntegratorHandler(
         register("PlaceholderAPI") { PAPIIntegrator }
         register("Lands") { LandsIntegrator }
         register("WorldGuard") { WorldGuardIntegrator }
-        register("PlasmoVoice") { PlasmoVoiceIntegrator }
     }
 }

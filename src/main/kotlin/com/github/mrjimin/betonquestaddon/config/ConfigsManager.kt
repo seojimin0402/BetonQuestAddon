@@ -2,7 +2,6 @@ package com.github.mrjimin.betonquestaddon.config
 
 import com.github.mrjimin.betonquestaddon.BetonQuestAddonPlugin
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems
-import com.github.mrjimin.betonquestaddon.compatibility.plasmovoice.addon.PVAddonPlugin
 import com.github.mrjimin.betonquestaddon.item.ItemBuilder
 import com.github.mrjimin.betonquestaddon.item.ItemParser
 import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
@@ -17,9 +16,9 @@ class ConfigsManager(private val plugin: BetonQuestAddonPlugin) {
         plugin.saveDefaultConfig()
         plugin.reloadConfig()
 
-        if ("PlasmoVoice".checkPlugin() && PVAddonPlugin.isInitialized) {
-            PVAddonPlugin.instance.loadConfig()
-        }
+//        if ("PlasmoVoice".checkPlugin() && PVAddonPlugin.isInitialized) {
+//            PVConfigsManager(plugin).reload(PVAddonPlugin.voiceServer)
+//        }
 
         BQAddonItems.loadItems(this)
     }

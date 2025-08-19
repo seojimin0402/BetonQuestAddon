@@ -33,7 +33,7 @@ object BQAddonItems {
 
     fun exists(item: ItemStack?): Boolean = idFromItem(item)?.let { exists(it) } ?: false
 
-    fun allIds(): List<String> = idToItemBuilder.keys.toList().sorted()
+    fun allIds(): List<String> = idToItemBuilder.keys.asSequence().sorted().toList()  // idToItemBuilder.keys.toList().sorted()
 
     fun allItems(): List<ItemBuilder> = idToItemBuilder.values.toList()
 

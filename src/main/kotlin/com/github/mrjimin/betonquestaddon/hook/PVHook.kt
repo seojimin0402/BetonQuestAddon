@@ -1,98 +1,57 @@
-package com.github.mrjimin.betonquestaddon.hook
-
-import com.github.mrjimin.betonquestaddon.compatibility.plasmovoice.addon.PVAddonPlugin
-import kotlinx.coroutines.*
-import kotlinx.coroutines.future.await
-import org.bukkit.Location
-import org.bukkit.entity.Player
-import su.plo.slib.api.server.position.ServerPos3d
-import su.plo.voice.api.addon.InjectPlasmoVoice
-import su.plo.voice.api.server.PlasmoVoiceServer
-import su.plo.voice.api.server.audio.source.ServerProximitySource
-import su.plo.voice.api.server.player.VoiceServerPlayer
-import su.plo.voice.discs.PlasmoAudioPlayerManager
-import su.plo.voice.discs.libraries.org.koin.core.Koin
-import su.plo.voice.discs.utils.PluginKoinComponent
-import su.plo.voice.discs.utils.PluginKoinComponentKt
-
-object PVHook : PluginKoinComponent {
-
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    private val trackMap = mutableMapOf<String, String>() // id -> url
-    private val playerTrackJobs = mutableMapOf<String, Job>() // "uuid-id" or "location-id" -> Job
-
-    @InjectPlasmoVoice
-    lateinit var voiceServer: PlasmoVoiceServer
-
-    private val audioManager by lazy { PlasmoAudioPlayerManager().apply { registerSources() } }
-
-    fun onLoad() = PlasmoVoiceServer.getAddonsLoader().load(this)
-
-    fun onDisable() {
-        playerTrackJobs.values.forEach { it.cancel() }
-        playerTrackJobs.clear()
-        trackMap.clear()
-        PlasmoVoiceServer.getAddonsLoader().unload(this)
-    }
-
-    private fun getJobKey(player: Player?, id: String) =
-        if (player != null) "${player.uniqueId}-$id" else "location-$id"
-
-    fun playTrack(player: Player, id: String, url: String, distance: Short = 16, loop: Boolean = false) {
-        trackMap[id] = url
-        val voicePlayer = player.asVoicePlayer(voiceServer)
-        val jobKey = getJobKey(player, id)
-        playerTrackJobs[jobKey]?.cancel()
-        val job = scope.launch {
-            try {
-                do {
-                    val track = audioManager.getTrack(url).await()
-                    val source = PVAddonPlugin.sourceLine.createPlayerSource(voicePlayer, false) as ServerProximitySource<*>
-                    audioManager.startTrackJob(track, source, distance)
-                } while (loop)
-            } catch (e: Exception) {
-                player.sendMessage("§cFailed to play track: ${e.message}")
-            }
-        }
-        playerTrackJobs[jobKey] = job
-    }
-
-    fun playTrackAtLocation(location: Location, id: String, url: String, distance: Short = 16, loop: Boolean = false) {
-        trackMap[id] = url
-        scope.launch {
-            try {
-                val mcWorld = voiceServer.minecraftServer.getWorld(location.world.name) ?: return@launch
-                val pos = ServerPos3d(mcWorld, location.x, location.y, location.z)
-                do {
-                    val track = audioManager.getTrack(url).await()
-                    val source = PVAddonPlugin.sourceLine.createStaticSource(pos, false)
-                    audioManager.startTrackJob(track, source, distance)
-                } while (loop)
-            } catch (e: Exception) {
-                println("Failed to play track at location: ${e.message}")
-            }
-        }
-    }
-
-
-    fun stopTrack(player: Player?, id: String) {
-        val jobKey = getJobKey(player, id)
-        playerTrackJobs.remove(jobKey)?.cancel()
-        trackMap.remove(id)
-    }
-
-    fun stopTrackAll(id: String) {
-        playerTrackJobs.keys.filter { it.endsWith("-$id") || it.startsWith("location-$id") }
-            .forEach { playerTrackJobs.remove(it)?.cancel() }
-        trackMap.remove(id)
-    }
-
-    fun getTrackUrl(id: String): String? = trackMap[id]
-    fun getAllTracks(): Map<String, String> = trackMap.toMap()
-
-    fun Player.asVoicePlayer(voiceServer: PlasmoVoiceServer): VoiceServerPlayer =
-        voiceServer.playerManager.getPlayerByInstance(this)
-
-    override fun getKoin(): Koin = PluginKoinComponentKt.getKOIN_INSTANCE()
-
-}
+//package com.github.mrjimin.betonquestaddon.hook
+//
+//import com.github.mrjimin.betonquestaddon.BetonQuestAddonPlugin
+//import com.github.mrjimin.betonquestaddon.compatibility.trash.plasmovoice.addon.PVAddonPlugin
+//import com.github.mrjimin.betonquestaddon.compatibility.trash.plasmovoice.addon.TrackRegistry
+//import kotlinx.coroutines.*
+//import kotlinx.coroutines.future.await
+//import org.bukkit.Location
+//import su.plo.slib.api.server.position.ServerPos3d
+//
+//object PVHook {
+//
+//    private val plugin = BetonQuestAddonPlugin.instance
+//    private val audioPlayerManager = PVAddonPlugin.audioPlayerManager
+//    private val debugLogger = PVAddonPlugin.debugLogger
+//    private val config = PVAddonPlugin.configsManager.addonConfig
+//    private val voiceServer = PVAddonPlugin.voiceServer
+//
+//    private val activeTracks = mutableMapOf<String, CoroutineScope>()
+//
+//    fun playTrack(trackId: String, location: Location): Job {
+//        val scope = CoroutineScope(Dispatchers.Default)
+//        activeTracks[trackId] = scope
+//
+//        return scope.launch {
+//            val trackData = TrackRegistry.track(trackId) ?: return@launch
+//            val track = try { audioPlayerManager.getTrack(trackData.url).await() } catch(e: Exception){ return@launch }
+//
+//            val world = voiceServer.minecraftServer.getWorld(location.world)
+//            val pos = ServerPos3d(world, location.x + 0.5, location.y + 1.5, location.z + 0.5)
+//            val source = PVAddonPlugin.sourceLine.createStaticSource(pos, false)
+//            val distance = config.distance
+//
+//            debugLogger.log("Playing track \"$trackId\" at $location with distance $distance")
+//
+//            val trackJob = audioPlayerManager.startTrackJob(track, source, distance)
+//
+//            try {
+//                if (trackJob is Job) trackJob.join()
+//            } finally {
+//                withContext(NonCancellable) {
+//                    debugLogger.log("Track \"$trackId\" ended at $location")
+//                    source.remove()
+//                    activeTracks.remove(trackId)
+//                }
+//            }
+//        }
+//    }
+//
+//    suspend fun stopTrack(trackId: String) {
+//        val scope = activeTracks.remove(trackId) ?: return
+//        withContext(NonCancellable) {
+//            debugLogger.log("Stopping track \"$trackId\" manually")
+//            scope.cancel()
+//        }
+//    }
+//}

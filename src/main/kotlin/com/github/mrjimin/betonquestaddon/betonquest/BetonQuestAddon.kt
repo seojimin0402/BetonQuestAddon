@@ -35,7 +35,7 @@ object BetonQuestAddon {
         registerEvents()
         registerObjectives()
 
-        registerItem("pv-bqa", BQAddonItemFactory, BQAddonItemSerializer)
+        registerItem("bqa", BQAddonItemFactory, BQAddonItemSerializer)
     }
 
     private fun registerConditions() {

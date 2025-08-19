@@ -1,3 +1,4 @@
+/*
 package com.github.mrjimin.betonquestaddon.compatibility.plasmovoice.events
 
 import org.betonquest.betonquest.api.quest.event.PlayerEvent
@@ -17,3 +18,4 @@ class PVStopFactory(
         return PrimaryServerThreadEvent(PVStop(id, target), data)
     }
 }
+*/

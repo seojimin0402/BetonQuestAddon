@@ -19,7 +19,7 @@ class CommandsManger(private val plugin: BetonQuestAddonPlugin) {
                 ReloadCommand(plugin).build(),
                 GiveCommand().build(),
                 if (MinecraftVersion.V1_21_8.isExact()) GUICommand().build() else null,
-                if ("PlasmoVoice".checkPlugin()) PVListCommand().build() else null
+                // if ("PlasmoVoice".checkPlugin()) PVListCommand().build() else null
             )
             .executes(CommandExecutor { sender, _ ->
                 val hookedPlugins = BQAddonIntegratorHandler.getHookedPlugins().sorted().joinToString(", ")
