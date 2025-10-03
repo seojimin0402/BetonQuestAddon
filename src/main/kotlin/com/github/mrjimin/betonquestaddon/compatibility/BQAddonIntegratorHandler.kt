@@ -11,10 +11,10 @@ import com.github.mrjimin.betonquestaddon.compatibility.placeholderapi.PAPIInteg
 import com.github.mrjimin.betonquestaddon.compatibility.worldguard.WorldGuardIntegrator
 import com.github.mrjimin.betonquestaddon.util.server.checkPlugin
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
+import org.betonquest.betonquest.api.quest.PrimaryServerThreadData
+import org.betonquest.betonquest.api.quest.QuestTypeRegistries
 import org.betonquest.betonquest.config.PluginMessage
 import org.betonquest.betonquest.kernel.processor.quest.VariableProcessor
-import org.betonquest.betonquest.kernel.registry.quest.QuestTypeRegistries
-import org.betonquest.betonquest.quest.PrimaryServerThreadData
 
 class BQAddonIntegratorHandler(
     val loggerFactory: BetonQuestLogger,
@@ -25,55 +25,53 @@ class BQAddonIntegratorHandler(
 ) {
 
     companion object {
-        private val hookedPlugins = mutableListOf<String>()
+        private val hookedPlugins = mutableSetOf<String>()
 
         fun addHookedPlugin(name: String) {
-            if (name !in hookedPlugins) hookedPlugins.add(name)
+            hookedPlugins.add(name)
         }
 
         fun getHookedPlugins(): List<String> = hookedPlugins.toList()
-
-        fun clearHookedPlugins() {
-            hookedPlugins.clear()
-        }
+        fun clearHookedPlugins() = hookedPlugins.clear()
     }
 
-    private val integrators = mutableMapOf<String, () -> BQAddonIntegrator>()
+    private val integrators = mutableMapOf<String, BQAddonIntegrator>()
 
     init {
         registerCompatiblePlugins()
         hookAll()
     }
 
-    private fun register(pluginName: String, integratorSupplier: () -> BQAddonIntegrator) {
-        integrators[pluginName] = integratorSupplier
+    private fun register(pluginName: String, integrator: BQAddonIntegrator) {
+        integrators[pluginName] = integrator
     }
 
     private fun hookAll() {
-        integrators.forEach { (pluginName, supplier) ->
+        integrators.forEach { (pluginName, integrator) ->
             if (!pluginName.checkPlugin()) {
                 loggerFactory.debug("Plugin $pluginName not found, skipping integration.")
                 return@forEach
             }
-            try {
-                supplier().hook()
+            runCatching {
+                integrator.hook()
                 addHookedPlugin(pluginName)
                 loggerFactory.info("Successfully hooked into $pluginName.")
-            } catch (ex: Exception) {
+            }.onFailure { ex ->
                 loggerFactory.warn("Failed to hook into $pluginName: ${ex.message}", ex)
             }
         }
     }
 
     private fun registerCompatiblePlugins() {
-        register("CoinsEngine") { CoinsEngineIntegrator }
-        register("Nexo") { NexoIntegrator }
-        register("ItemsAdder") { ItemsAdderIntegrator }
-        register("CraftEngine") { CraftEngineIntegrator }
-        register("HeadDatabase") { HDBIntegrator }
-        register("AdvancedEnchantments") { AEIntegrator }
-        register("PlaceholderAPI") { PAPIIntegrator }
-        register("Lands") { LandsIntegrator }
-        register("WorldGuard") { WorldGuardIntegrator }
+        register("CoinsEngine", CoinsEngineIntegrator)
+        register("Nexo", NexoIntegrator)
+        register("ItemsAdder", ItemsAdderIntegrator)
+        register("CraftEngine", CraftEngineIntegrator)
+        register("HeadDatabase", HDBIntegrator)
+        register("AdvancedEnchantments", AEIntegrator)
+        register("PlaceholderAPI", PAPIIntegrator)
+        register("Lands", LandsIntegrator)
+        register("WorldGuard", WorldGuardIntegrator)
     }
+
 }

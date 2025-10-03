@@ -8,9 +8,9 @@ import org.betonquest.betonquest.api.quest.condition.PlayerlessConditionFactory
 import org.betonquest.betonquest.api.quest.condition.nullable.NullableConditionAdapter
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.argument.Argument
-import org.betonquest.betonquest.quest.PrimaryServerThreadData
-import org.betonquest.betonquest.quest.condition.PrimaryServerThreadPlayerCondition
-import org.betonquest.betonquest.quest.condition.PrimaryServerThreadPlayerlessCondition
+import org.betonquest.betonquest.api.quest.PrimaryServerThreadData
+import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadPlayerCondition
+import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadPlayerlessCondition
 
 class HDBBlockFactory(
     private val data: PrimaryServerThreadData

@@ -39,21 +39,9 @@ dependencies:
     PlaceholderAPI:
       load: BEFORE
       required: false
-#    UltimateAdvancementAPI:
-#      load: BEFORE
-#      required: false
     WorldGuard:
       load: BEFORE
       required: false
-#    PlasmoVoice:
-#      load: BEFORE
-#      required: false
-#    pv-addon-discs:
-#      load: BEFORE
-#      required: false
-#    pv-addon-lavaplayer-lib:
-#      load: BEFORE
-#      required: false
 
 permissions:
   betonquestaddon.command:

@@ -3,6 +3,7 @@ package com.github.mrjimin.betonquestaddon.betonquest.items
 import com.github.mrjimin.betonquestaddon.api.BQAddonItems
 import com.github.mrjimin.betonquestaddon.item.ItemBuilder
 import com.github.mrjimin.betonquestaddon.util.toLegacy
+import net.kyori.adventure.text.Component
 import org.betonquest.betonquest.api.profile.Profile
 import org.betonquest.betonquest.api.quest.QuestException
 import org.betonquest.betonquest.item.QuestItem
@@ -16,12 +17,12 @@ class BQAddonItem(
         throw QuestException("Invalid or missing BetonQuestAddon Item ID: '$itemId'")
     private val itemMeta = itemStack.build().clone().itemMeta
 
-    override fun getName(): String {
-        return itemMeta.itemName().toLegacy()
+    override fun getName(): Component {
+        return itemMeta.itemName()
     }
 
-    override fun getLore(): List<String?>? {
-        return itemMeta.lore()?.map { it.toLegacy() }
+    override fun getLore(): List<Component?>? {
+        return itemMeta.lore()?.map { it }
     }
 
     override fun generate(int: Int, profile: Profile?): ItemStack? {

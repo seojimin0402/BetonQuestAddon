@@ -16,8 +16,8 @@ import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.argument.Argument
 import org.betonquest.betonquest.api.instruction.variable.Variable
 import org.betonquest.betonquest.api.quest.event.PlayerEvent
-import org.betonquest.betonquest.quest.PrimaryServerThreadData
-import org.betonquest.betonquest.quest.event.PrimaryServerThreadEvent
+import org.betonquest.betonquest.api.quest.PrimaryServerThreadData
+import org.betonquest.betonquest.api.quest.event.thread.PrimaryServerThreadEvent
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack

@@ -1,7 +1,7 @@
 package com.github.mrjimin.betonquestaddon.compatibility.headdatabase.items
 
-import com.github.mrjimin.betonquestaddon.util.toLegacy
 import me.arcaniax.hdb.api.HeadDatabaseAPI
+import net.kyori.adventure.text.Component
 import org.betonquest.betonquest.api.profile.Profile
 import org.betonquest.betonquest.item.QuestItem
 import org.bukkit.inventory.ItemStack
@@ -12,12 +12,12 @@ class HDBItem(
 
     private val hdbItemMeta = HeadDatabaseAPI().getItemHead(itemId).itemMeta
 
-    override fun getName(): String? {
-        return hdbItemMeta?.itemName()?.toLegacy()
+    override fun getName(): Component? {
+        return hdbItemMeta?.itemName()
     }
 
-    override fun getLore(): List<String?>? {
-        return hdbItemMeta?.lore()?.map { it.toLegacy() }
+    override fun getLore(): List<Component?>? {
+        return hdbItemMeta?.lore()?.map { it }
     }
 
     override fun generate(int: Int, profile: Profile?): ItemStack? {

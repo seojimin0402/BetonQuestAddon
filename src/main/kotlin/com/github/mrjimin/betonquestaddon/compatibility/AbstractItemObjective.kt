@@ -1,6 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility
 
-import org.betonquest.betonquest.api.logger.BetonQuestLogger
+import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
 import org.betonquest.betonquest.api.profile.OnlineProfile
 import org.betonquest.betonquest.api.quest.QuestException
 import org.betonquest.betonquest.api.instruction.Instruction
@@ -11,21 +11,22 @@ abstract class AbstractItemObjective<T>(
     instruction: Instruction,
     targetAmount: Variable<Number>,
     langMessageKey: LangMessageKey,
-    log: BetonQuestLogger,
     private val itemID: Variable<T>
-) : AbstractBaseObjective(instruction, targetAmount, langMessageKey, log) {
+) : AbstractBaseObjective(instruction, targetAmount, langMessageKey) {
 
     protected abstract fun matches(expected: T, inputId: String?): Boolean
 
     override fun checkMatch(profile: OnlineProfile, input: Any?): Boolean {
+        val inputId = input as? String ?: return false
         return try {
             val expected = itemID.getValue(profile)
-            matches(expected, input as? String)
+            matches(expected, inputId)
         } catch (e: QuestException) {
-            log.warn("Could not resolve Item Variable in objective '${instruction.id}': ${e.message}", e)
+            BetonQuestAddon.logger.warn("Could not resolve Item Variable in objective '${instruction.id}': ${e.message}", e)
             false
         }
     }
+
 
     fun handle(namespacedID: String?, player: Player?) =
         handle(player, namespacedID)

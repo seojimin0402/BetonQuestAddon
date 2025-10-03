@@ -12,9 +12,8 @@ import org.bukkit.event.Listener
 class NxBlockPlace(
     instruction: Instruction,
     targetAmount: Variable<Number>,
-    log: BetonQuestLogger,
     itemID: Variable<String>
-) : NxObjective(instruction, targetAmount, LangMessageKey.BLOCK_PLACE, log, itemID), Listener {
+) : NxObjective(instruction, targetAmount, LangMessageKey.BLOCK_PLACE, itemID), Listener {
 
     @EventHandler
     fun NexoBlockPlaceEvent.onNexoBlockPlace() {

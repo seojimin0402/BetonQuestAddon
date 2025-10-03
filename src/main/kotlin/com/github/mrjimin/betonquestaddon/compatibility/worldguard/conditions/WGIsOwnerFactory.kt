@@ -5,8 +5,8 @@ import org.betonquest.betonquest.api.quest.condition.PlayerCondition
 import org.betonquest.betonquest.api.quest.condition.PlayerConditionFactory
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.argument.Argument
-import org.betonquest.betonquest.quest.PrimaryServerThreadData
-import org.betonquest.betonquest.quest.condition.PrimaryServerThreadPlayerCondition
+import org.betonquest.betonquest.api.quest.PrimaryServerThreadData
+import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadPlayerCondition
 
 class WGIsOwnerFactory(
     private val data: PrimaryServerThreadData

@@ -1,7 +1,7 @@
 package com.github.mrjimin.betonquestaddon.compatibility.nexo
 
- import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
- import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegrator
+import com.github.mrjimin.betonquestaddon.betonquest.BetonQuestAddon
+import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegrator
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.conditions.NxBlockConditionFactory
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.events.block.NxSetBlockAtEventFactory
 import com.github.mrjimin.betonquestaddon.compatibility.nexo.events.furniture.NxSetFurnitureAtEventFactor
@@ -22,12 +22,12 @@ object NexoIntegrator : BQAddonIntegrator() {
             register("nxFurnitureAt", NxSetFurnitureAtEventFactor(data))
         }
         objective.apply {
-            register("nxBlockPlace", NxBlockPlaceObjectiveFactory(loggerFactory))
-            register("nxBlockBreak", NxBlockBreakObjectiveFactory(loggerFactory))
-            register("nxBlockInteract", NxBlockInteractFactory(loggerFactory))
-            register("nxFurniturePlace", NxFurniturePlaceObjectiveFactory(loggerFactory))
-            register("nxFurnitureBreak", NxFurnitureBreakObjectiveFactory(loggerFactory))
-            register("nxFurnitureInteract", NxFurnitureInteractObjectiveFactory(loggerFactory))
+            register("nxBlockPlace", NxBlockPlaceObjectiveFactory)
+            register("nxBlockBreak", NxBlockBreakObjectiveFactory)
+            register("nxBlockInteract", NxBlockInteractFactory)
+            register("nxFurniturePlace", NxFurniturePlaceObjectiveFactory)
+            register("nxFurnitureBreak", NxFurnitureBreakObjectiveFactory)
+            register("nxFurnitureInteract", NxFurnitureInteractObjectiveFactory)
         }
         BetonQuestAddon.registerItem("nexo", NxItemFactory, NxItemSerializer)
     }

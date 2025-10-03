@@ -4,26 +4,38 @@ import com.github.mrjimin.betonquestaddon.betonquest.items.BQAddonItemFactory
 import com.github.mrjimin.betonquestaddon.betonquest.items.BQAddonItemSerializer
 import com.github.mrjimin.betonquestaddon.compatibility.BQAddonIntegratorHandler
 import org.betonquest.betonquest.BetonQuest
+import org.betonquest.betonquest.api.kernel.TypeFactory
 import org.betonquest.betonquest.api.logger.BetonQuestLogger
 import org.betonquest.betonquest.api.logger.BetonQuestLoggerFactory
 import org.betonquest.betonquest.api.profile.OnlineProfile
-import org.betonquest.betonquest.config.PluginMessage
-import org.betonquest.betonquest.conversation.ConversationColors
+import org.betonquest.betonquest.api.quest.PrimaryServerThreadData
 import org.betonquest.betonquest.item.QuestItemSerializer
 import org.betonquest.betonquest.item.QuestItemWrapper
-import org.betonquest.betonquest.kernel.processor.quest.VariableProcessor
-import org.betonquest.betonquest.kernel.registry.TypeFactory
-import org.betonquest.betonquest.kernel.registry.feature.FeatureRegistries
-import org.betonquest.betonquest.kernel.registry.quest.QuestTypeRegistries
-import org.betonquest.betonquest.quest.PrimaryServerThreadData
-import org.bukkit.Server
 import org.bukkit.entity.Player
 
 object BetonQuestAddon {
 
+    lateinit var integratorHandler: BQAddonIntegratorHandler
+        private set
+
+    private val bqInstance: BetonQuest by lazy { BetonQuest.getInstance() }
+
+    val loggerFactory: BetonQuestLoggerFactory by lazy { bqInstance.loggerFactory }
+    val logger: BetonQuestLogger by lazy { loggerFactory.create(this::class.java) }
+    val server by lazy { bqInstance.server }
+    val pluginMessage by lazy { bqInstance.pluginMessage }
+    val variableProcessor by lazy { bqInstance.variableProcessor }
+    val conversationColors by lazy { bqInstance.conversationColors }
+    val featureRegistries by lazy { bqInstance.featureRegistries }
+    val questRegistries by lazy { bqInstance.questRegistries }
+    val data: PrimaryServerThreadData by lazy { PrimaryServerThreadData(server, server.scheduler, bqInstance) }
+
+    val instance: BetonQuest
+        get() = bqInstance
+
     fun initialize() {
-        BQAddonIntegratorHandler(
-            loggerFactory.create(this::class.java),
+        integratorHandler = BQAddonIntegratorHandler(
+            logger,
             data,
             pluginMessage,
             variableProcessor,
@@ -45,34 +57,6 @@ object BetonQuestAddon {
 
     private fun registerObjectives() {
     }
-
-    val instance: BetonQuest by lazy { BetonQuest.getInstance() }
-
-    val loggerFactory: BetonQuestLoggerFactory
-        get() = instance.loggerFactory
-
-    val logger: BetonQuestLogger
-        get() = loggerFactory.create(this::class.java)
-
-    val server: Server
-        get() = instance.server
-
-    val pluginMessage: PluginMessage
-        get() = instance.pluginMessage
-
-    val variableProcessor: VariableProcessor
-        get() = instance.variableProcessor
-
-    val conversationColors: ConversationColors
-        get() = instance.conversationColors
-
-    val featureRegistries: FeatureRegistries
-        get() = instance.featureRegistries
-
-    val questRegistries: QuestTypeRegistries
-        get() = instance.questRegistries
-
-    val data: PrimaryServerThreadData by lazy { PrimaryServerThreadData(server, server.scheduler, instance) }
 
     fun Player.toProfile(): OnlineProfile = instance.profileProvider.getProfile(this)
 

@@ -10,9 +10,8 @@ open class CeObjective(
     instruction: Instruction,
     targetAmount: Variable<Number>,
     langMessageKey: LangMessageKey,
-    log: BetonQuestLogger,
     itemID: Variable<String>
-) : AbstractItemObjective<String>(instruction, targetAmount, langMessageKey, log, itemID) {
+) : AbstractItemObjective<String>(instruction, targetAmount, langMessageKey, itemID) {
     override fun matches(expected: String, inputId: String?): Boolean {
         return expected == inputId
     }

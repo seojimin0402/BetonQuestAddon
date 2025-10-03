@@ -2,6 +2,7 @@ package com.github.mrjimin.betonquestaddon.compatibility.craftengine.items
 
 import com.github.mrjimin.betonquestaddon.hook.CraftEngineHook
 import com.github.mrjimin.betonquestaddon.util.toLegacy
+import net.kyori.adventure.text.Component
 import org.betonquest.betonquest.api.profile.Profile
 import org.betonquest.betonquest.item.QuestItem
 import org.bukkit.inventory.ItemStack
@@ -12,12 +13,12 @@ class CeItem(
 
     private val customItemMeta = CraftEngineHook.itemFromId(itemId)?.buildItemStack()?.itemMeta
 
-    override fun getName(): String? {
-        return customItemMeta?.itemName()?.toLegacy()
+    override fun getName(): Component? {
+        return customItemMeta?.itemName()
     }
 
-    override fun getLore(): List<String?>? {
-        return customItemMeta?.lore()?.map { it.toLegacy() }
+    override fun getLore(): List<Component?>? {
+        return customItemMeta?.lore()?.map { it }
     }
 
     override fun generate(int: Int, profile: Profile?): ItemStack? {
