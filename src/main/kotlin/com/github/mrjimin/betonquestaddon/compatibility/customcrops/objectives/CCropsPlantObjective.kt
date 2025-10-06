@@ -22,8 +22,6 @@ class CCropsPlantObjective(
         val profile = getProfile(player) ?: return
 
         if (CustomCropsHook.isInvalidLocation(player, profile, location, range)) return
-        println(crops.getValue(profile))
-        println(!crops.getValue(profile).contains(cropConfig().id()))
         if (!crops.getValue(profile).contains(cropConfig().id())) return
         handle(player)
     }
