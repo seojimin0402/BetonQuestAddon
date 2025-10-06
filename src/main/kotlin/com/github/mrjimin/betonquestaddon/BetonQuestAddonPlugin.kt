@@ -7,6 +7,7 @@ import com.github.mrjimin.betonquestaddon.shadow.bstats.Metrics
 import com.github.mrjimin.betonquestaddon.spigot.UpdateChecker
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import dev.jorel.commandapi.CommandAPIPaperConfig
 import org.bukkit.plugin.java.JavaPlugin
 
 @Suppress("UnstableApiUsage")
@@ -17,10 +18,9 @@ class BetonQuestAddonPlugin : JavaPlugin() {
             private set
     }
 
-
     override fun onLoad() {
         instance = this
-        CommandAPI.onLoad(CommandAPIBukkitConfig(this).verboseOutput(true))
+        CommandAPI.onLoad(CommandAPIPaperConfig(this).verboseOutput(true).silentLogs(true))
     }
 
     override fun onEnable() {

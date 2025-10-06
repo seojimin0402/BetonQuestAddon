@@ -52,4 +52,3 @@ permissions:
     default: op
   betonquestaddon.command.inventory:
     default: op
-

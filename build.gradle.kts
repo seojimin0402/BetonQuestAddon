@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.mrjimin"
-version = "1.5.0"
+version = "1.5.1"
 
 repositories {
     mavenCentral()
@@ -43,7 +43,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0") // stdlib 포함
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.0") // PlasmoVoice 호환
-    implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.2")
+    implementation("dev.jorel:commandapi-paper-shade:11.0.0")
     implementation("xyz.xenondevs.invui:invui:2.0.0-alpha.17")
     implementation("xyz.xenondevs.invui:invui-kotlin:2.0.0-alpha.17")
 
