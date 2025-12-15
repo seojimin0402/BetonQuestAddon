@@ -8,26 +8,20 @@ import org.betonquest.betonquest.api.instruction.argument.Argument
 import org.betonquest.betonquest.api.quest.objective.ObjectiveFactory
 
 class NexoObjectiveFactory(
-    private val action: ActionType,
-    private val target: TargetType
+    private val targetType: TargetType,
+    private val actionType: ActionType
 ) : ObjectiveFactory {
 
-    override fun parseInstruction(instruction: Instruction): Objective {
+    override fun parseInstruction(instruction: Instruction): Objective? {
         val itemId = instruction[Argument.STRING]
         val amount = instruction.getValue("amount", Argument.NUMBER_NOT_LESS_THAN_ONE, 1)
 
-        val message = when (action) {
-            ActionType.BREAK -> "to_break"
-            ActionType.PLACE -> "to_place"
-        }
+        val message = "${targetType.name.lowercase()}_to_${actionType.name.lowercase()}"
 
-        return NexoObjective(
-            instruction,
-            amount,
-            message,
-            itemId,
-            action,
-            target
-        )
+        return when (targetType) {
+            TargetType.FURNITURE -> NexoFurnitureObjective(instruction, amount, message, itemId, actionType)
+            // TargetType.BLOCK -> NexoBlockObjective(instruction, itemId, amount, actionType, message)
+            else -> return null
+        }
     }
 }

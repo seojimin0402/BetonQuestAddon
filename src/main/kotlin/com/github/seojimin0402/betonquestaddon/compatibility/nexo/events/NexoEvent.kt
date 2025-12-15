@@ -15,14 +15,14 @@ class NexoEvent(
     private val location: Variable<Location>,
     private val rotation: Variable<String>?,
     private val blockFace: Variable<String>?,
-    private val type: TargetType
+    private val targetType: TargetType
 ) : PlayerEvent {
 
     override fun execute(profile: Profile) {
         val id = itemId.getValue(profile)
         val loc = location.getValue(profile)
 
-        when (type) {
+        when (targetType) {
             TargetType.BLOCK -> placeBlock(id, loc)
             TargetType.FURNITURE -> placeFurniture(id, loc, profile)
         }

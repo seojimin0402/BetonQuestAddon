@@ -11,19 +11,21 @@ import org.betonquest.betonquest.api.quest.event.thread.PrimaryServerThreadEvent
 
 class NexoEventFactory(
     private val data: PrimaryServerThreadData,
-    private val type: TargetType
+    private val targetType: TargetType
 ) : PlayerEventFactory {
 
     override fun parsePlayer(instruction: Instruction): PlayerEvent {
         val itemId = instruction[Argument.STRING]
         val location = instruction[Argument.LOCATION]
 
-        val rotation = instruction.getOrNull(Argument.STRING)
-        val blockFace = instruction.getOrNull(Argument.STRING)
+        // val rotation = instruction.getOrNull(Argument.STRING)
+        val rotation = instruction.getValue("rotation", Argument.STRING)
+        val blockFace = instruction.getValue("blockFace", Argument.STRING)
 
         return PrimaryServerThreadEvent(
-            NexoEvent(itemId, location, rotation, blockFace, type),
+            NexoEvent(itemId, location, rotation, blockFace, targetType),
             data
         )
     }
+
 }

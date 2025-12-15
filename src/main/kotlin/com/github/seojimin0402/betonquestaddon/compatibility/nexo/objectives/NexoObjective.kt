@@ -1,34 +1,34 @@
 package com.github.seojimin0402.betonquestaddon.compatibility.nexo.objectives
 
 import com.github.seojimin0402.betonquestaddon.util.event.ActionType
-import com.github.seojimin0402.betonquestaddon.util.event.TargetType
 import org.betonquest.betonquest.api.CountingObjective
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.variable.Variable
 import org.bukkit.entity.Player
+import org.bukkit.event.Listener
 
-class NexoObjective(
+abstract class NexoObjective(
     instruction: Instruction,
     targetAmount: Variable<Number>?,
     message: String,
-    private val item: Variable<String>,
-    private val action: ActionType,
-    private val target: TargetType
-) : CountingObjective(instruction, targetAmount, message) {
+    protected val item: Variable<String>,
+    protected val action: ActionType
+) : CountingObjective(instruction, targetAmount, message), Listener {
 
-    fun tryProgress(player: Player, itemId: String) {
+    protected fun handle(player: Player, itemId: String?) {
+        if (itemId == null) return
+
         val profile = profileProvider.getProfile(player)
-
         qeHandler.handle {
-            if (!containsPlayer(profile)) return@handle
-            if (!checkConditions(profile)) return@handle
-            if (item.getValue(profile) != itemId) return@handle
-
-            getCountingData(profile).progress()
-            completeIfDoneOrNotify(profile)
+            if (
+                containsPlayer(profile) &&
+                item.getValue(profile) == itemId &&
+                checkConditions(profile)
+            ) {
+                getCountingData(profile).progress()
+                completeIfDoneOrNotify(profile)
+            }
         }
     }
-
-    fun matches(action: ActionType, target: TargetType): Boolean =
-        this.action == action && this.target == target
 }
+

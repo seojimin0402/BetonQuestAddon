@@ -11,8 +11,4 @@ fun Instruction.getNumberNotLessThanZero(name: String, default: Int = 1): Variab
     this.getValue(name, Argument.NUMBER_NOT_LESS_THAN_ZERO, default) ?: Variable(default)
 
 fun <T : Any> Instruction.getOrNull(arg: Argument<T>): Variable<T>? =
-    try {
-        get(arg)
-    } catch (e: Exception) {
-        null
-    }
+    runCatching { get(arg) }.getOrNull()
