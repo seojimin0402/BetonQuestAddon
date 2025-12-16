@@ -12,7 +12,7 @@ class NexoObjectiveFactory(
     private val actionType: ActionType
 ) : ObjectiveFactory {
 
-    override fun parseInstruction(instruction: Instruction): Objective? {
+    override fun parseInstruction(instruction: Instruction): Objective {
         val itemId = instruction[Argument.STRING]
         val amount = instruction.getValue("amount", Argument.NUMBER_NOT_LESS_THAN_ONE, 1)
 
@@ -20,8 +20,7 @@ class NexoObjectiveFactory(
 
         return when (targetType) {
             TargetType.FURNITURE -> NexoFurnitureObjective(instruction, amount, message, itemId, actionType)
-            // TargetType.BLOCK -> NexoBlockObjective(instruction, itemId, amount, actionType, message)
-            else -> return null
+            TargetType.BLOCK -> NexoBlockObjective(instruction, amount, message, itemId, actionType)
         }
     }
 }

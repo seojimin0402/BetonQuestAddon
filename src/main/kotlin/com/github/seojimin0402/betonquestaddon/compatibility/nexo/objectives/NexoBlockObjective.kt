@@ -1,12 +1,12 @@
 package com.github.seojimin0402.betonquestaddon.compatibility.nexo.objectives
 
 import com.github.seojimin0402.betonquestaddon.util.event.ActionType
-import com.nexomc.nexo.api.events.furniture.*
+import com.nexomc.nexo.api.events.custom_block.*
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.variable.Variable
 import org.bukkit.event.EventHandler
 
-class NexoFurnitureObjective(
+class NexoBlockObjective(
     instruction: Instruction,
     targetAmount: Variable<Number>?,
     message: String,
@@ -15,21 +15,21 @@ class NexoFurnitureObjective(
 ) : NexoObjective(instruction, targetAmount, message, item, actionType) {
 
     @EventHandler(ignoreCancelled = true)
-    fun NexoFurnitureBreakEvent.onBreak() {
+    fun NexoBlockBreakEvent.onBreak() {
         if (actionType != ActionType.BREAK) return
-        handle(player, baseEntity)
+        handle(player, block)
     }
 
     @EventHandler(ignoreCancelled = true)
-    fun NexoFurniturePlaceEvent.onPlace() {
+    fun NexoBlockPlaceEvent.onPlace() {
         if (actionType != ActionType.PLACE) return
-        handle(player, baseEntity)
+        handle(player, block)
     }
 
     @EventHandler(ignoreCancelled = true)
-    fun NexoFurnitureInteractEvent.onInteract() {
+    fun NexoBlockInteractEvent.onInteract() {
         if (actionType != ActionType.INTERACT) return
-        handle(player, baseEntity)
+        handle(player, block)
     }
 
 }
