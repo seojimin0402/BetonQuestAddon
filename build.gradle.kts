@@ -68,37 +68,34 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
+val shadowJarPlugin = tasks.register<ShadowJar>("shadowJarPlugin") {
+    archiveFileName.set("BetonQuestAddon-${project.version}.jar")
 
-tasks {
-    register<ShadowJar>("shadowJarPlugin") {
-        archiveFileName.set("BetonQuestAddon-${project.version}.jar")
+    from(sourceSets.main.get().output)
+    configurations = listOf(project.configurations.runtimeClasspath.get())
 
-        from(sourceSets.main.get().output)
-        configurations = listOf(project.configurations.runtimeClasspath.get())
+    exclude("kotlin/**", "kotlinx/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/slf4j/**")
+}
 
-        exclude("kotlin/**", "kotlinx/**")
-        exclude("org/intellij/**")
-        exclude("org/jetbrains/**")
-        exclude("org/slf4j/**")
-    }
-        // from("LICENSE")
+tasks.named("build") {
+    // dependsOn(tasks.clean)
+    dependsOn(shadowJarPlugin)
+}
 
-    build {
-        dependsOn("shadowJarPlugin")
-    }
+tasks.compileJava {
+    options.encoding = "UTF-8"
+    options.release.set(21)
+}
 
-    compileJava {
-        options.encoding = "UTF-8"
-        options.release.set(21)
-    }
-
-    processResources {
-        val props = mapOf("version" to version)
-        inputs.properties(props)
-        filteringCharset = "UTF-8"
-        filesMatching("paper-plugin.yml") {
-            expand(props)
-        }
+tasks.processResources {
+    val props = mapOf("version" to version)
+    inputs.properties(props)
+    filteringCharset = "UTF-8"
+    filesMatching("paper-plugin.yml") {
+        expand(props)
     }
 }
 

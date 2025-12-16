@@ -1,11 +1,11 @@
 package com.github.seojimin0402.betonquestaddon.compatibility.nexo
 
 import com.github.seojimin0402.betonquestaddon.compatibility.ICompatibility
-import com.github.seojimin0402.betonquestaddon.compatibility.nexo.conditions.NexoConditionFactory
 import com.github.seojimin0402.betonquestaddon.compatibility.nexo.events.NexoEventFactory
 import com.github.seojimin0402.betonquestaddon.compatibility.nexo.item.NexoItemFactory
 import com.github.seojimin0402.betonquestaddon.compatibility.nexo.item.NexoQuestItemSerializer
 import com.github.seojimin0402.betonquestaddon.compatibility.nexo.objectives.NexoObjectiveFactory
+import com.github.seojimin0402.betonquestaddon.conditions.CustomConditionFactory
 import com.github.seojimin0402.betonquestaddon.util.event.ActionType
 import com.github.seojimin0402.betonquestaddon.util.event.TargetType
 import com.nexomc.nexo.api.NexoBlocks
@@ -25,13 +25,13 @@ class NexoIntegrator : ICompatibility {
         val condition = questRegistries.condition()
         condition.registerCombined(
             "nexoBlock",
-            NexoConditionFactory(data) { location ->
+            CustomConditionFactory(data) { location ->
                 NexoBlocks.customBlockMechanic(location)?.itemID
             }
         )
         condition.registerCombined(
             "nexoFurniture",
-            NexoConditionFactory(data) { location ->
+            CustomConditionFactory(data) { location ->
                 NexoFurniture.furnitureMechanic(location)?.itemID
             }
         )

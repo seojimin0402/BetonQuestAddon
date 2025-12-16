@@ -1,11 +1,11 @@
-package com.github.seojimin0402.betonquestaddon.compatibility.nexo.conditions
+package com.github.seojimin0402.betonquestaddon.conditions
 
 import org.betonquest.betonquest.api.instruction.variable.Variable
 import org.betonquest.betonquest.api.profile.Profile
 import org.betonquest.betonquest.api.quest.condition.nullable.NullableCondition
 import org.bukkit.Location
 
-class NexoCondition(
+class CustomCondition(
     private val itemId: Variable<String>,
     private val location: Variable<Location>,
     private val mechanicIdProvider: (Location) -> String?

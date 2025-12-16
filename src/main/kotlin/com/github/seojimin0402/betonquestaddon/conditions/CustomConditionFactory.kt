@@ -1,4 +1,4 @@
-package com.github.seojimin0402.betonquestaddon.compatibility.nexo.conditions
+package com.github.seojimin0402.betonquestaddon.conditions
 
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.argument.Argument
@@ -12,7 +12,7 @@ import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadP
 import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadPlayerlessCondition
 import org.bukkit.Location
 
-class NexoConditionFactory(
+class CustomConditionFactory(
     private val data: PrimaryServerThreadData,
     private val mechanicIdProvider: (Location) -> String?
 ) : PlayerConditionFactory, PlayerlessConditionFactory {
@@ -29,9 +29,9 @@ class NexoConditionFactory(
             data
         )
 
-    private fun parseInstruction(instruction: Instruction): NexoCondition {
+    private fun parseInstruction(instruction: Instruction): CustomCondition {
         val itemId = instruction[Argument.STRING]
         val location = instruction[Argument.LOCATION]
-        return NexoCondition(itemId, location, mechanicIdProvider)
+        return CustomCondition(itemId, location, mechanicIdProvider)
     }
 }
