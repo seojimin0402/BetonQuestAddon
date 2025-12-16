@@ -1,9 +1,11 @@
 package com.github.mrjimin.betonquestaddon.compatibility.craftengine
 
 import com.github.mrjimin.betonquestaddon.compatibility.ICompatibility
+import com.github.mrjimin.betonquestaddon.compatibility.craftengine.event.CraftEngineEventFactory
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.item.CraftEngineItemFactory
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.item.CraftEngineQuestItemSerializer
 import com.github.mrjimin.betonquestaddon.conditions.CustomConditionFactory
+import com.github.mrjimin.betonquestaddon.util.event.TargetType
 import net.momirealms.craftengine.bukkit.api.BukkitAdaptors
 import org.betonquest.betonquest.api.BetonQuestApi
 
@@ -31,6 +33,16 @@ class CraftEngineIntegrator : ICompatibility {
 //                BukkitAdaptors.adapt(location.block).id().toString()
 //            }
 //        )
+
+        val event = questRegistries.event()
+        event.register(
+            "craftEngineBlockAt",
+            CraftEngineEventFactory(data, TargetType.BLOCK)
+        )
+        event.register(
+            "craftEngineFurnitureAt",
+            CraftEngineEventFactory(data, TargetType.FURNITURE)
+        )
     }
 
 }

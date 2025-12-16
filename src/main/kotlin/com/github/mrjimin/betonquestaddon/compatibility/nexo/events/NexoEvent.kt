@@ -29,12 +29,12 @@ class NexoEvent(
     }
 
     private fun placeBlock(id: String, loc: Location) {
-        require(NexoBlocks.isCustomBlock(id)) { "Nexo item is not a block: $id" }
+        requireNotNull(NexoBlocks.isCustomBlock(id)) { "Nexo item is not a block: $id" }
         NexoBlocks.place(id, loc)
     }
 
     private fun placeFurniture(id: String, loc: Location, profile: Profile) {
-        require(NexoFurniture.isFurniture(id)) { "Nexo item is not a furniture: $id" }
+        requireNotNull(NexoFurniture.isFurniture(id)) { "Nexo item is not a furniture: $id" }
         NexoFurniture.place(
             id,
             loc,

@@ -1,7 +1,6 @@
-package com.github.mrjimin.betonquestaddon.compatibility.nexo.events
+package com.github.mrjimin.betonquestaddon.compatibility.craftengine.event
 
 import com.github.mrjimin.betonquestaddon.util.event.TargetType
-import com.github.mrjimin.betonquestaddon.util.getOrNull
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.argument.Argument
 import org.betonquest.betonquest.api.quest.PrimaryServerThreadData
@@ -9,7 +8,7 @@ import org.betonquest.betonquest.api.quest.event.PlayerEvent
 import org.betonquest.betonquest.api.quest.event.PlayerEventFactory
 import org.betonquest.betonquest.api.quest.event.thread.PrimaryServerThreadEvent
 
-class NexoEventFactory(
+class CraftEngineEventFactory(
     private val data: PrimaryServerThreadData,
     private val targetType: TargetType
 ) : PlayerEventFactory {
@@ -18,11 +17,10 @@ class NexoEventFactory(
         val itemId = instruction[Argument.STRING]
         val location = instruction[Argument.LOCATION]
 
-        val rotation = instruction.getValue("rotation", Argument.STRING)
-        val blockFace = instruction.getValue("blockFace", Argument.STRING)
+        val playSound = instruction.getValue("playSound", Argument.BOOLEAN)
 
         return PrimaryServerThreadEvent(
-            NexoEvent(itemId, location, rotation, blockFace, targetType),
+            CraftEngineEvent(itemId, location, playSound, targetType),
             data
         )
     }

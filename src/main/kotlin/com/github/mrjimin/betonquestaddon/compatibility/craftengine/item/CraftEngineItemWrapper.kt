@@ -1,5 +1,6 @@
 package com.github.mrjimin.betonquestaddon.compatibility.craftengine.item
 
+import com.github.mrjimin.betonquestaddon.compatibility.craftengine.asCraftKey
 import net.kyori.adventure.text.Component
 import net.momirealms.craftengine.bukkit.api.CraftEngineItems
 import net.momirealms.craftengine.core.util.Key
@@ -13,14 +14,14 @@ class CraftEngineItemWrapper (
     private val itemName: Variable<String>
 ) : QuestItemWrapper {
 
-    override fun getItem(profile: Profile?): QuestItem? =
+    override fun getItem(profile: Profile?): QuestItem =
         CraftEngineItem(itemName.getValue(profile))
 
     class CraftEngineItem(
         private val itemId: String
     ) : QuestItem {
 
-        private val customItemMeta = CraftEngineItems.byId(Key.of(itemId))
+        private val customItemMeta = CraftEngineItems.byId(itemId.asCraftKey())
             ?.buildItemStack()?.itemMeta
 
         override fun getName(): Component? =
@@ -30,10 +31,10 @@ class CraftEngineItemWrapper (
             customItemMeta?.lore()
 
         override fun generate(stackSize: Int, profile: Profile?): ItemStack? =
-            CraftEngineItems.byId(Key.of(itemId))?.buildItemStack(stackSize)?.clone()
+            CraftEngineItems.byId(itemId.asCraftKey())?.buildItemStack(stackSize)?.clone()
 
         override fun matches(item: ItemStack?): Boolean =
-            Key.of(itemId) == item?.let(CraftEngineItems::getCustomItemId)
+            itemId.asCraftKey() == item?.let(CraftEngineItems::getCustomItemId)
 
     }
 }
