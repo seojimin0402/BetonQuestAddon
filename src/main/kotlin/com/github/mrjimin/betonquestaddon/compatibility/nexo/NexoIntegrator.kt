@@ -47,7 +47,12 @@ class NexoIntegrator : ICompatibility {
         )
 
         val objective = questRegistries.objective()
+        objective.register("nexoBlockBreak", NexoObjectiveFactory(TargetType.BLOCK, ActionType.BREAK))
+        objective.register("nexoBlockPlace", NexoObjectiveFactory(TargetType.BLOCK, ActionType.PLACE))
+        objective.register("nexoBlockInteract", NexoObjectiveFactory(TargetType.BLOCK, ActionType.INTERACT))
+
         objective.register("nexoFurnitureBreak", NexoObjectiveFactory(TargetType.FURNITURE, ActionType.BREAK))
+        objective.register("nexoFurniturePlace", NexoObjectiveFactory(TargetType.FURNITURE, ActionType.PLACE))
         objective.register("nexoFurnitureInteract", NexoObjectiveFactory(TargetType.FURNITURE, ActionType.INTERACT))
     }
 }

@@ -49,7 +49,12 @@ class CraftEngineIntegrator : ICompatibility {
 
 
         val objective = questRegistries.objective()
+        objective.register("craftEngineBlockBreak", CraftEngineObjectiveFactory(TargetType.BLOCK, ActionType.BREAK))
+        objective.register("craftEngineBlockPlace", CraftEngineObjectiveFactory(TargetType.BLOCK, ActionType.PLACE))
+        objective.register("craftEngineBlockInteract", CraftEngineObjectiveFactory(TargetType.BLOCK, ActionType.INTERACT))
+
         objective.register("craftEngineFurnitureBreak", CraftEngineObjectiveFactory(TargetType.FURNITURE, ActionType.BREAK))
+        objective.register("craftEngineFurniturePlace", CraftEngineObjectiveFactory(TargetType.FURNITURE, ActionType.PLACE))
         objective.register("craftEngineFurnitureInteract", CraftEngineObjectiveFactory(TargetType.FURNITURE, ActionType.INTERACT))
     }
 
