@@ -4,7 +4,10 @@ import com.github.mrjimin.betonquestaddon.compatibility.ICompatibility
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.event.CraftEngineEventFactory
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.item.CraftEngineItemFactory
 import com.github.mrjimin.betonquestaddon.compatibility.craftengine.item.CraftEngineQuestItemSerializer
-import com.github.mrjimin.betonquestaddon.conditions.CustomConditionFactory
+import com.github.mrjimin.betonquestaddon.compatibility.craftengine.objectives.CraftEngineObjectiveFactory
+import com.github.mrjimin.betonquestaddon.compatibility.nexo.objectives.NexoObjectiveFactory
+import com.github.mrjimin.betonquestaddon.conditions.BaseConditionFactory
+import com.github.mrjimin.betonquestaddon.util.event.ActionType
 import com.github.mrjimin.betonquestaddon.util.event.TargetType
 import net.momirealms.craftengine.bukkit.api.BukkitAdaptors
 import org.betonquest.betonquest.api.BetonQuestApi
@@ -22,7 +25,7 @@ class CraftEngineIntegrator : ICompatibility {
         val condition = questRegistries.condition()
         condition.registerCombined(
             "craftEngineBlock",
-            CustomConditionFactory(data) {  location ->
+            BaseConditionFactory(data) {  location ->
                 BukkitAdaptors.adapt(location.block).id().toString()
             }
         )
@@ -43,6 +46,11 @@ class CraftEngineIntegrator : ICompatibility {
             "craftEngineFurnitureAt",
             CraftEngineEventFactory(data, TargetType.FURNITURE)
         )
+
+
+        val objective = questRegistries.objective()
+        objective.register("craftEngineFurnitureBreak", CraftEngineObjectiveFactory(TargetType.FURNITURE, ActionType.BREAK))
+        objective.register("craftEngineFurnitureInteract", CraftEngineObjectiveFactory(TargetType.FURNITURE, ActionType.INTERACT))
     }
 
 }

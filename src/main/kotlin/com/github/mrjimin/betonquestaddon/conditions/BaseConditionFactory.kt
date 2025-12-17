@@ -12,7 +12,7 @@ import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadP
 import org.betonquest.betonquest.api.quest.condition.thread.PrimaryServerThreadPlayerlessCondition
 import org.bukkit.Location
 
-class CustomConditionFactory(
+class BaseConditionFactory(
     private val data: PrimaryServerThreadData,
     private val mechanicIdProvider: (Location) -> String?
 ) : PlayerConditionFactory, PlayerlessConditionFactory {
@@ -29,9 +29,9 @@ class CustomConditionFactory(
             data
         )
 
-    private fun parseInstruction(instruction: Instruction): CustomCondition {
+    private fun parseInstruction(instruction: Instruction): BaseCondition {
         val itemId = instruction[Argument.STRING]
         val location = instruction[Argument.LOCATION]
-        return CustomCondition(itemId, location, mechanicIdProvider)
+        return BaseCondition(itemId, location, mechanicIdProvider)
     }
 }

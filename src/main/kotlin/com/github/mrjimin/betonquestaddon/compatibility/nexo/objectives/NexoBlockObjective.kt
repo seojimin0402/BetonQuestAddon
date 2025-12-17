@@ -8,28 +8,26 @@ import org.bukkit.event.EventHandler
 
 class NexoBlockObjective(
     instruction: Instruction,
-    targetAmount: Variable<Number>?,
+    amount: Variable<Number>?,
     message: String,
     item: Variable<String>,
-    actionType: ActionType
-) : NexoObjective(instruction, targetAmount, message, item, actionType) {
+    actionType: ActionType,
+    isCancelled: Variable<Boolean>?
+) : NexoObjective(instruction, message, amount, item, actionType, isCancelled) {
 
     @EventHandler(ignoreCancelled = true)
     fun NexoBlockBreakEvent.onBreak() {
-        if (actionType != ActionType.BREAK) return
-        handle(player, block)
+        handle(ActionType.BREAK, player, block)
     }
 
     @EventHandler(ignoreCancelled = true)
     fun NexoBlockPlaceEvent.onPlace() {
-        if (actionType != ActionType.PLACE) return
-        handle(player, block)
+        handle(ActionType.PLACE, player, block)
     }
 
     @EventHandler(ignoreCancelled = true)
     fun NexoBlockInteractEvent.onInteract() {
-        if (actionType != ActionType.INTERACT) return
-        handle(player, block)
+        handle(ActionType.INTERACT, player, block)
     }
 
 }

@@ -1,16 +1,17 @@
-package com.github.mrjimin.betonquestaddon.compatibility.nexo.objectives
+package com.github.mrjimin.betonquestaddon.compatibility.craftengine.objectives
 
 import com.github.mrjimin.betonquestaddon.objectives.AbstractItemObjective
 import com.github.mrjimin.betonquestaddon.util.event.ActionType
-import com.nexomc.nexo.api.NexoBlocks
-import com.nexomc.nexo.api.NexoFurniture
+import net.momirealms.craftengine.bukkit.api.BukkitAdaptors
+import net.momirealms.craftengine.bukkit.api.CraftEngineFurniture
 import org.betonquest.betonquest.api.instruction.Instruction
 import org.betonquest.betonquest.api.instruction.variable.Variable
 import org.bukkit.block.Block
+import org.bukkit.entity.Entity
 import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 
-abstract class NexoObjective(
+abstract class CraftEngineObjective(
     instruction: Instruction,
     message: String,
     amount: Variable<Number>?,
@@ -22,14 +23,15 @@ abstract class NexoObjective(
     protected fun handle(
         expected: ActionType,
         player: Player,
-        entity: ItemDisplay
+        entity: Entity
     ) {
         handleItem(
             expected,
             player,
-            NexoFurniture
-                .furnitureMechanic(entity)
-                ?.itemID
+            CraftEngineFurniture
+                .getLoadedFurnitureByMetaEntity(entity)
+                ?.id()
+                ?.toString()
         )
     }
 
@@ -41,9 +43,10 @@ abstract class NexoObjective(
         handleItem(
             expected,
             player,
-            NexoBlocks
-                .customBlockMechanic(block)
-                ?.itemID
+            BukkitAdaptors
+                .adapt(block)
+                .id()
+                .toString()
         )
     }
 }

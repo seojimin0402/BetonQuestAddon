@@ -8,28 +8,26 @@ import org.bukkit.event.EventHandler
 
 class NexoFurnitureObjective(
     instruction: Instruction,
-    targetAmount: Variable<Number>?,
+    amount: Variable<Number>?,
     message: String,
     item: Variable<String>,
-    actionType: ActionType
-) : NexoObjective(instruction, targetAmount, message, item, actionType) {
+    actionType: ActionType,
+    isCancelled: Variable<Boolean>?
+) : NexoObjective(instruction, message, amount, item, actionType, isCancelled) {
 
     @EventHandler(ignoreCancelled = true)
     fun NexoFurnitureBreakEvent.onBreak() {
-        if (actionType != ActionType.BREAK) return
-        handle(player, baseEntity)
+        handle(ActionType.BREAK, player, baseEntity)
     }
 
     @EventHandler(ignoreCancelled = true)
     fun NexoFurniturePlaceEvent.onPlace() {
-        if (actionType != ActionType.PLACE) return
-        handle(player, baseEntity)
+        handle(ActionType.PLACE, player, baseEntity)
     }
 
     @EventHandler(ignoreCancelled = true)
     fun NexoFurnitureInteractEvent.onInteract() {
-        if (actionType != ActionType.INTERACT) return
-        handle(player, baseEntity)
+        handle(ActionType.INTERACT, player, baseEntity)
     }
 
 }
