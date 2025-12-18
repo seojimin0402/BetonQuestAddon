@@ -5,6 +5,8 @@ import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.event.ItemsAd
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.event.PlayAnimationFactory
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.item.ItemsAdderItemFactory
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.item.ItemsAdderQuestItemSerializer
+import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.ItemsAdderObjectiveFactory
+import com.github.mrjimin.betonquestaddon.util.event.ActionType
 import com.github.mrjimin.betonquestaddon.util.event.TargetType
 import org.betonquest.betonquest.api.BetonQuestApi
 
@@ -31,5 +33,14 @@ class ItemsAdderIntegrator : ICompatibility {
             "itemsAdderPlayAnimation",
             PlayAnimationFactory(data, loggerFactory)
         )
+
+        val objective = questRegistries.objective()
+        objective.register("itemsAdderBlockBreak", ItemsAdderObjectiveFactory(TargetType.BLOCK, ActionType.BREAK))
+        objective.register("itemsAdderBlockPlace", ItemsAdderObjectiveFactory(TargetType.BLOCK, ActionType.PLACE))
+        objective.register("itemsAdderBlockInteract", ItemsAdderObjectiveFactory(TargetType.BLOCK, ActionType.INTERACT))
+
+        objective.register("itemsAdderFurnitureBreak", ItemsAdderObjectiveFactory(TargetType.FURNITURE, ActionType.BREAK))
+        objective.register("itemsAdderFurniturePlace", ItemsAdderObjectiveFactory(TargetType.FURNITURE, ActionType.PLACE))
+        objective.register("itemsAdderFurnitureInteract", ItemsAdderObjectiveFactory(TargetType.FURNITURE, ActionType.INTERACT))
     }
 }
