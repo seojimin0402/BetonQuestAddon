@@ -22,7 +22,8 @@ interface ICheckObjectiveFactory : ObjectiveFactory {
         )
         val isCancelled = instruction.getValue(
             "isCancelled",
-            Argument.BOOLEAN
+            Argument.BOOLEAN,
+            false
         )
 
         val message =

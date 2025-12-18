@@ -6,8 +6,13 @@ import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.event.PlayAni
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.item.ItemsAdderItemFactory
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.item.ItemsAdderQuestItemSerializer
 import com.github.mrjimin.betonquestaddon.compatibility.itemsadder.objectives.ItemsAdderObjectiveFactory
+import com.github.mrjimin.betonquestaddon.conditions.BaseConditionFactory
 import com.github.mrjimin.betonquestaddon.util.event.ActionType
 import com.github.mrjimin.betonquestaddon.util.event.TargetType
+import com.nexomc.nexo.api.NexoBlocks
+import com.nexomc.nexo.api.NexoFurniture
+import dev.lone.itemsadder.api.CustomBlock
+import dev.lone.itemsadder.api.CustomFurniture
 import org.betonquest.betonquest.api.BetonQuestApi
 
 class ItemsAdderIntegrator : ICompatibility {
@@ -19,6 +24,20 @@ class ItemsAdderIntegrator : ICompatibility {
         val itemRegistry = api.featureRegistries.item()
         itemRegistry.register("itemsAdder", ItemsAdderItemFactory())
         itemRegistry.registerSerializer("itemsAdder", ItemsAdderQuestItemSerializer())
+
+        val condition = questRegistries.condition()
+        condition.registerCombined(
+            "itemsAdderBlock",
+            BaseConditionFactory(data) { location ->
+                CustomBlock.byAlreadyPlaced(location.block)?.namespacedID
+            }
+        )
+        condition.registerCombined(
+            "itemsAdderFurniture",
+            BaseConditionFactory(data) { location ->
+                CustomFurniture.byAlreadySpawned(location.block)?.namespacedID
+            }
+        )
 
         val event = questRegistries.event()
         event.register(
